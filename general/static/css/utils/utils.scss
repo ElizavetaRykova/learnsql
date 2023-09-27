@@ -1,0 +1,96 @@
+//утилитарные стили
+
+.h1 {
+  font-size: rem(86);
+  line-height: rem(70);
+
+  @media (max-width: 1024px) {
+    font-size: rem(72);
+    line-height: rem(72);
+  }
+
+  @media (max-width: 768px) {
+    font-size: rem(70);
+  }
+
+  @media (max-width: 568px) {
+    font-size: rem(38);
+    line-height: rem(38);
+  }
+}
+
+.h2 {
+  font-size: rem(72);
+  line-height: rem(72);
+}
+
+.h3 {
+  font-size: rem(48);
+  line-height: rem(52);
+
+  @media (max-width: 768px) {
+    font-size: rem(26);
+    line-height: rem(26);
+  }
+}
+
+.h4 {
+  font-size: rem(36);
+  line-height: rem(40);
+}
+
+.montserrat-text-l {
+  font-family: $fontFamilyMontserrat;
+  font-weight: 400;
+  font-size: rem(24);
+  line-height: rem(30);
+}
+
+.montserrat-text-m {
+  font-family: $fontFamilyMontserrat;
+  font-weight: 500;
+  font-size: rem(18);
+  line-height: rem(24);
+
+  @media (max-width: 1024px) {
+    font-size: rem(14);
+    line-height: rem(22);
+  }
+
+  @media (max-width: 568px) {
+    font-size: rem(12);
+    line-height: rem(18);
+  }
+}
+
+.montserrat-text-s {
+  font-family: $fontFamilyMontserrat;
+  font-weight: 400;
+  font-size: rem(18);
+  line-height: rem(24);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.hidden-opacity {
+  opacity: 0;
+  height: 0 !important;
+}
+
+.lock {
+  overflow: hidden;
+}
+
+.mt-50 {
+  margin-top: rem(50);
+}
+
+.mt-100 {
+  margin-top: rem(100);
+}
+
+.btn-card-text-show {
+  cursor: default;
+}

@@ -1,0 +1,31 @@
+{% extends 'head.html' %}
+
+{% load static %}
+
+{% block title%}
+    signin
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'header.html' %}
+    <main>
+        <div class="signin">
+            <div class="signin__form">
+                <div class="signin__text-welcom">Добро пожаловать !</div>
+                <form>
+                    <input placeholder="Логин" type="text" class="input-login">
+                    <input placeholder="Пароль" type="text" class="input-password">
+                    <button type="submit" class="enter-button">Войти</button>
+                </form> 
+                <div class="signin__forgot">
+                    <a href=" " class="signin__forgot-password">Забыл пароль</a>
+                    <hr />
+                    <a href=" " class="signin__signup">Зарегистрироваться</a>
+                </div>
+            </div>
+        </div>    
+    </main>
+    {% include 'footer.html' %}
+</div>
+{% endblock %}

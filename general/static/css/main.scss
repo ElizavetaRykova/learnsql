@@ -1,0 +1,166 @@
+@use "sass:math";
+
+//fonts in base
+@import "base/fonts";
+
+//utils
+@import "base/mixins";
+@import "base/variables";
+
+// Шрифт по умолчанию ==============================================================================================================================================================================================================================================================================
+$fontFamily: "Montserrat", sans-serif;
+$fontFamilyMontserrat: "Montserrat", sans-serif;
+$fontSize: rem(16); // где 16(px) - размер шрифта по умолчанию из макета
+
+// Брейк-поинты
+$pc: em($containerWidth); // ПК, ноутбуки, некоторые планшеты в горизонтальном положении
+$tablet: em(991.98); // Планшеты, некоторые телефоны в горизонтальном положении
+$mobile: em(767.98); // Телефоны L
+$mobileSmall: em(479.98); // Телефоны S
+
+//base
+@import "base/null";
+//utils
+@import "utils/utils";
+@import "utils/common";
+@import "utils/animations";
+
+body {
+  font-family: $fontFamily;
+  font-weight: 500;
+
+  // Скролл заблокирован
+  .lock {
+    overflow: hidden;
+    touch-action: none;
+  }
+  // Сайт загружен
+  .loaded & {
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+main{
+  padding: 3vh 0;
+  background-color: #F5F5F5;
+  // background-color: red;
+}
+// Оболочка ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  // Прижимаем footer
+  > main {
+    flex: 1 1 auto;
+  }
+  // Фикс для слайдеров
+  > * {
+    min-width: 0;
+  }
+}
+
+// Ограничивающий контейнер ======================================================================================================================================================================================================================
+
+/*
+(i) Стили будут применяться ко
+всем классам содержащим *__container
+Например header__container, main__container и т.д.
+Снипет (HTML): cnt
+*/
+[class*="__container"] {
+  margin: 0 auto;
+  max-width: 1310px;
+
+  @media (max-width: 1368px) {
+    max-width: 100%;
+    padding: 0 36px;
+  }
+
+  @media (max-width: 767.98px) {
+    max-width: 696px;
+    padding: 0;
+  }
+
+  @media (max-width: 716px) {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+
+[class*="__container--wide"] {
+  max-width: 100%;
+  padding: 0 80px;
+
+  @media (max-width: 767.98px) {
+    max-width: 696px;
+    padding: 0;
+  }
+
+  @media (max-width: 716px) {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+
+[class*="__container--lecture"] {
+  max-width: 100%;
+  padding: 0 188px 0 0;
+
+  @media (max-width: 767.98px) {
+    max-width: 696px;
+    padding: 0;
+  }
+
+  @media (max-width: 716px) {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+
+[class*="__container--topics"] {
+  max-width: 100%;
+  padding: 0 150px 0 225px;
+
+  @media (max-width: 767.98px) {
+    max-width: 696px;
+    padding: 0;
+  }
+
+  @media (max-width: 716px) {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+
+[class*="__container--gis"] {
+  max-width: 100%;
+  padding: 0 80px;
+
+  @media (max-width: 767.98px) {
+    max-width: 696px;
+    padding: 0;
+  }
+
+  @media (max-width: 716px) {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+
+//components
+//@import "components/btns";
+
+//layout
+@import "layout/header";
+@import "layout/footer";
+//pages
+@import "pages/signin";
+//themes
+
+//vendors
+//@import "vendors/swiper";
