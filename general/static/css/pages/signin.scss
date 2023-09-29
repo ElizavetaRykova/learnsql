@@ -52,6 +52,12 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    outline: none;
+}
+
+.input-login:focus{
+    color: #101923;
+    border: 1px solid #780000;
 }
 
 .input-password{
@@ -67,6 +73,12 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    outline: none;
+}
+
+.input-password:focus{
+    color: #101923;
+    border: 1px solid #780000;
 }
 
 .enter-button{
