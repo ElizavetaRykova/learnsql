@@ -80,13 +80,15 @@ STATICFILES_FINDERS = [
 WSGI_APPLICATION = 'learnsql.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE' : 'django_reddatabase',
+        'NAME' : 'C:\Program Files\RedDatabase\examples\empbuild\EMPLOYEE.fdb', # Path to database or db alias
+        'USER' : 'SYSDBA',           # Your db user
+        'PASSWORD' : 'masterkey',    # db user password
+        'HOST' : '127.0.0.1',        # Your host machine
+        'PORT' : '3050',             # If is empty, use default 3050
+        #'OPTIONS' : {'charset':'ISO8859_1'}
     }
 }
 

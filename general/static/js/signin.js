@@ -24,12 +24,10 @@ const checkFieldsPresence = function () {
   const login = document.querySelector('.input-login');
   const password = document.querySelector('.input-password');
   if (!login.value.length) {
-    console.log('field is blank', login);
     const error = generateError('Введите логин');
     login.parentElement.insertBefore(error, login);
   }
   if (!password.value.length) {
-    console.log('field is blank', password);
     const error = generateError('Введите пароль');
     password.parentElement.insertBefore(error, password);
   }
