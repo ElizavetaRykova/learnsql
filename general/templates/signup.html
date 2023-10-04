@@ -1,0 +1,28 @@
+{% extends 'head.html' %}
+
+{% load static %}
+
+{% block title%}
+    signup
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'header.html' %}
+    <main>
+        <div class="signup">
+            <div class="signup__form">
+                <div class="signup__text-welcom">Добро пожаловать !</div>
+                <form>
+                    <input placeholder="Логин" type="text" class="input-login">
+                    <input placeholder="Email" type="text" class="input-email">
+                    <input placeholder="Пароль" type="password" class="input-password">
+                    <input placeholder="Повторите пароль" type="password" class="input-password">
+                    <button type="submit" class="enter-button">Зарегистрироваться</button>
+                </form> 
+            </div>
+        </div>    
+    </main>
+    {% include 'footer.html' %}
+</div>
+{% endblock %}
