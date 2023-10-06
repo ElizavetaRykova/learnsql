@@ -14,10 +14,10 @@
             <div class="signup__form">
                 <div class="signup__text-welcom">Добро пожаловать !</div>
                 <form>
-                    <input placeholder="Логин" type="text" class="input-login">
-                    <input placeholder="Email" type="text" class="input-email">
+                    <input placeholder="Логин" type="text" name="login" class="input-login">
+                    <input placeholder="Email" type="email" name="email" class="input-email">
                     <input placeholder="Пароль" type="password" class="input-password">
-                    <input placeholder="Повторите пароль" type="password" class="input-password">
+                    <input placeholder="Повторите пароль" type="password" class="input-confirm-password">
                     <button type="submit" class="enter-button">Зарегистрироваться</button>
                 </form> 
             </div>
@@ -25,4 +25,5 @@
     </main>
     {% include 'footer.html' %}
 </div>
+<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
 {% endblock %}

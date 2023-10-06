@@ -68,6 +68,27 @@
     border: 1px solid #780000;
 }
 
+.input-confirm-password{
+    margin-bottom: 48px;
+    padding: 14px 17px;
+    width: 323px;
+    height: 52px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    color: rgba(0, 0, 0, 0.50);
+    font-family: Montserrat;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    outline: none;
+}
+
+.input-confirm-password:focus{
+    color: #101923;
+    border: 1px solid #780000;
+}
+
 .input-email{
     margin-bottom: 48px;
     padding: 14px 17px;
