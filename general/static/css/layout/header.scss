@@ -8,23 +8,22 @@
   }
 
   &__logo {
-    margin-right: 25px;
+    margin-right: 57px;
     font-size: 18px;
     font-weight: 500;
     color: #101923;
   }
 
-  &__avatar {
+  &__user-name {
     margin-left: auto;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    img {
-      width: 50%;
-      height: 50%;
-      object-fit: cover;
-    }
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.015em;
+    color: #101923;
+  }  
+  &__user-name :hover{
+    color: #B60000;
   }
 }
 

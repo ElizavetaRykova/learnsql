@@ -1,0 +1,120 @@
+.lections{
+ &__wrapper{
+    display: grid;
+    grid-template-columns: 68% 27%;
+    grid-gap: 3%;
+    height: 100%;
+ }
+ &__content{
+    margin-top: 30px;
+    display: grid;
+    flex-direction: column;
+    gap: 30px;
+ }
+ &__list{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+}
+
+.lection{
+    position: relative;
+    padding: 15px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    border: 1px solid #B60000;
+    background-color: #FFF;
+    &__part{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        align-items: last baseline;
+    }
+    &__topic-of-lecture{
+        color: rgba(0, 0, 0, 0.80);
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        &--lock{
+            color: #FFF;
+            text-align: center;
+            font-family: Montserrat;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+    &--lock{
+        position: relative;
+        padding: 15px 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content:space-between;
+        align-items: baseline;
+        border-radius: 15px;
+        border: 1px solid #101923;
+        background: #575D64;
+    }
+}
+
+
+.link-to-lecture-task{
+    padding: 4px 15px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    background: #B60000;
+    border: 1px solid #B60000; 
+    border-radius: 15px;
+    &--lock{
+        padding: 4px 15px;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        color: #FFF;
+        background-color: #575D64;
+        border-radius: 15px;
+        box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.25), 2px 2px 4px rgba(0, 0, 0, 0.75);
+    }
+}
+
+.list-name{
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.search{
+    padding: 15px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 325px;
+    border-radius: 15px;
+    border: 1px solid #B60000;
+    background-color: #FFF;
+    &__query{
+        color: rgba(16, 25, 35, 0.80);
+        font-family: Montserrat;
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    &__icon{
+        flex-shrink: 0;
+    }
+}

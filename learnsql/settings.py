@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'learnsql.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +69,9 @@ TEMPLATES = [
         },
     },
 ]
+
+#После регистрации пользователь перенаправляется на домашнюю страницу
+LOGIN_REDIRECT_URL = '/'
 
 #STATICFILES_FINDERS для SCSS
 STATICFILES_FINDERS = [
@@ -83,7 +86,7 @@ WSGI_APPLICATION = 'learnsql.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE' : 'django_reddatabase',
-        'NAME' : 'C:\Program Files\RedDatabase\examples\empbuild\EMPLOYEE.fdb', # Path to database or db alias
+        'NAME' : 'C:\Program Files\RedDatabase\examples\empbuild\LEARNSQL.fdb', # Path to database or db alias
         'USER' : 'SYSDBA',           # Your db user
         'PASSWORD' : 'masterkey',    # db user password
         'HOST' : '127.0.0.1',        # Your host machine

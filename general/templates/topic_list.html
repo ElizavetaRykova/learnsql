@@ -1,0 +1,57 @@
+{% extends 'head.html' %}
+
+{% load static %}
+
+{% block title%}
+    signin
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'header.html' %}
+    <main>
+        <div class="lections">
+            <div class="lections__container--medium">
+              <div class="lections__wrapper">
+                <div class="lections__content">
+                    <div class="lections__list-name list-name">Список тем</div>
+                        <form class="lections__search search">
+                            <input placeholder="Поиск" type="text" class="search__query">
+                            <button type="submit" class="search__icon">
+                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_149_961)">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.98107 0.0238063C5.27311 0.366732 2.96396 1.77222 1.49674 3.97049C-0.921453 7.59352 -0.359468 12.4533 2.82088 15.4206C4.50098 16.9881 6.59804 17.8108 8.91355 17.8108C10.9243 17.8108 12.6849 17.2355 14.2446 16.0686L14.8089 15.6464L15.5681 16.3857C15.9857 16.7923 17.4341 18.2215 18.7867 19.5616C21.4522 22.2024 21.4457 22.1976 21.8226 21.8209C21.9386 21.705 22 21.562 22 21.4077C22 21.193 21.7142 20.8857 18.8233 17.9932L15.6465 14.8148L15.7914 14.6343C16.7651 13.4218 17.4819 11.8582 17.7442 10.3748C17.8774 9.62184 17.8558 7.95471 17.7036 7.23428C16.9431 3.63334 14.3666 1.00349 10.7993 0.186895C10.1975 0.0491469 8.53887 -0.0468004 7.98107 0.0238063ZM10.8354 1.45226C11.6301 1.65722 12.6424 2.11414 13.3444 2.58492C13.9586 2.99672 14.9522 4.012 15.3813 4.66594C16.2066 5.92409 16.5775 7.11285 16.6331 8.67818C16.7124 10.9146 16.0159 12.7249 14.46 14.3269C12.9673 15.8637 11.0957 16.6557 8.95662 16.6557C5.91509 16.6557 3.30374 15.0227 1.9723 12.2879C-0.280195 7.66131 2.54845 2.23138 7.69202 1.30844C8.53027 1.15799 9.9456 1.22275 10.8354 1.45226Z" fill="#101923" fill-opacity="0.8"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_149_961">
+                                            <rect width="22" height="22" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+                            </button>
+                        </form>
+                  <ul class="lections__list">
+                    <li class="lections__item lection">
+                        <div class="lection__part">
+                            <a href="" class="lection__topic-of-lecture">Название темы</a>
+                            <a href="" class="lection__link-to-lecture-task link-to-lecture-task">Задания</a>
+                        </div>
+                        <div class="lection__part">
+                            <div class="lection__deadline">Дедлайн</div>
+                            <div class="lection__button-expand button-expand">вниз</div>
+                        </div>
+                    </li>
+                    <li class="lections__item lection--lock">
+                        <a href="" class="lection__topic-of-lecture--lock">Название темы</a>
+                        <a href="" class="lection__link-to-lecture-task link-to-lecture-task--lock">Задания</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="lesctions__sidebar sidebar"></div>
+              </div>
+            </div>
+          </div>
+    </main>
+    {% include 'footer.html' %}
+</div>
+{% endblock %}

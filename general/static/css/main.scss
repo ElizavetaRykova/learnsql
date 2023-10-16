@@ -107,22 +107,7 @@ main{
   }
 }
 
-[class*="__container--lecture"] {
-  max-width: 100%;
-  padding: 0 188px 0 0;
-
-  @media (max-width: 767.98px) {
-    max-width: 696px;
-    padding: 0;
-  }
-
-  @media (max-width: 716px) {
-    max-width: 100%;
-    padding: 0 10px;
-  }
-}
-
-[class*="__container--topics"] {
+[class*="__container--medium"] {
   max-width: 100%;
   padding: 0 150px 0 225px;
 
@@ -137,20 +122,6 @@ main{
   }
 }
 
-[class*="__container--gis"] {
-  max-width: 100%;
-  padding: 0 80px;
-
-  @media (max-width: 767.98px) {
-    max-width: 696px;
-    padding: 0;
-  }
-
-  @media (max-width: 716px) {
-    max-width: 100%;
-    padding: 0 10px;
-  }
-}
 
 //components
 //@import "components/btns";
@@ -159,8 +130,9 @@ main{
 @import "layout/header";
 @import "layout/footer";
 //pages
-@import "pages/signin";
+@import "pages/login";
 @import "pages/signup";
+@import "pages/topic_list";
 //themes
 
 //vendors
