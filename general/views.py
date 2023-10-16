@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+# from django.contrib.auth.forms import AuthenticationForm
+from .forms import MyForm
 
 # Форма входа
 def signin(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request=request, data=request.POST)
+        form = MyForm(request=request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -16,8 +17,8 @@ def signin(request):
             else:
                 form.add_error(None, 'Invalid username or password')
     else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+        form = MyForm()
+    return render(request, 'login.html', {'form1': form})
 
 
 # Отрисовка HTML-шаблона страницы регистрации

@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'learnsql.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE' : 'django_reddatabase',
-        'NAME' : 'C:\Program Files\RedDatabase\examples\empbuild\LEARNSQL.fdb', # Path to database or db alias
+        'NAME' : 'LEARNSQL.fdb', # Path to database or db alias
         'USER' : 'SYSDBA',           # Your db user
         'PASSWORD' : 'masterkey',    # db user password
         'HOST' : '127.0.0.1',        # Your host machine
