@@ -7,7 +7,7 @@ class MyForm(AuthenticationForm):
                                                            'placeholder': 'Логин',
                                                            'class': 'input-login'}))
     password = forms.CharField(
-        label=("Password"),
+        label= None,
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
                                           'placeholder': 'Пароль',

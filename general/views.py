@@ -18,7 +18,7 @@ def signin(request):
                 form.add_error(None, 'Invalid username or password')
     else:
         form = MyForm()
-    return render(request, 'login.html', {'form1': form})
+    return render(request, './registration/login.html', {'form': form})
 
 
 # Отрисовка HTML-шаблона страницы регистрации
