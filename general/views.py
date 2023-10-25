@@ -28,3 +28,7 @@ def get_signup(request):
 # Отрисовка HTML-шаблона страницы со списком тем
 def get_topic_list(request):
     return render(request, 'topic_list.html')
+
+# Отрисовка HTML-шаблона страницы учебника
+def get_book(request):
+    return render(request, 'book.html')

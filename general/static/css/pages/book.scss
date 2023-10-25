@@ -1,0 +1,21 @@
+.book{
+    padding-right: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-end;
+    &__content{
+        height: 80vh;
+    }
+}
+
+.link-to-lecture-task{
+    padding: 4px 15px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    background: #B60000;
+    border: 1px solid #B60000; 
+    border-radius: 15px;
+}

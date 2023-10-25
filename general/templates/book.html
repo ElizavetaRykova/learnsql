@@ -1,0 +1,21 @@
+{% extends 'head.html' %}
+
+{% load static %}
+
+{% block title%}
+    book
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'header.html' %}
+    <main>
+        <div class="book">
+            <div class="book__content">дока, сгенерированная sphinx</div>
+            <a href="" class="book__link-to-lecture-task link-to-lecture-task">Задания</a>
+        </div>    
+    </main>
+    {% include 'footer.html' %}
+</div>
+
+{% endblock %}
