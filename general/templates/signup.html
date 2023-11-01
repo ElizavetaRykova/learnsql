@@ -13,13 +13,15 @@
         <div class="signup">
             <div class="signup__form">
                 <div class="signup__text-welcom">Добро пожаловать !</div>
-                <form>
-                    <input placeholder="Имя" type="text" name="name" class="input-fio">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <!-- <input placeholder="Имя" type="text" name="name" class="input-fio">
                     <input placeholder="Фамилия" type="text" name="lastname" class="input-fio">
                     <input placeholder="Логин" type="text" name="login" class="input-login">
                     <input placeholder="Email" type="email" name="email" class="input-email">
                     <input placeholder="Пароль" type="password" class="input-password">
-                    <input placeholder="Повторите пароль" type="password" class="input-confirm-password">
+                    <input placeholder="Повторите пароль" type="password" class="input-confirm-password"> -->
                     <button type="submit" class="enter-button">Зарегистрироваться</button>
                 </form> 
             </div>
@@ -27,5 +29,5 @@
     </main>
     {% include 'footer.html' %}
 </div>
-<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/signup.js' %}"></script> -->
 {% endblock %}
