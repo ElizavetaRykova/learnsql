@@ -32,14 +32,14 @@ def get_signup(request):
             # выполняем аутентификацию
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('topic_list/')
+            return redirect('lectures/')
     else:
         form = RegisterForm()
     return render(request, 'signup.html', {'form': form})
 
 # Отрисовка HTML-шаблона страницы со списком тем
-def get_topic_list(request):
-    return render(request, 'topic_list.html')
+def get_lectures(request):
+    return render(request, 'lectures.html')
 
 # Отрисовка HTML-шаблона страницы учебника
 def get_book(request):

@@ -10,12 +10,12 @@
 <div class="wrapper">
     {% include 'header.html' %}
     <main>
-        <div class="topics">
-            <div class="topics__container--medium">
-              <div class="topics__wrapper">
-                <div class="topics__content">
-                    <div class="topics__list-name list-name">Список тем</div>
-                        <form class="topics__search search">
+        <div class="lectures">
+            <div class="lectures__container--medium">
+              <div class="lectures__wrapper">
+                <div class="lectures__content">
+                    <div class="lectures__list-name list-name">Список тем</div>
+                        <form class="lectures__search search">
                             <input placeholder="Поиск" type="text" class="search__query">
                             <button type="submit" class="search__icon">
                                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,14 +31,14 @@
                                     </svg>
                             </button>
                         </form>
-                  <ul class="topics__list">
-                    <li class="topics__item topic">
-                        <div class="topic__top-part">
-                            <a href="" class="topic__topic-of-lecture">Название темы</a>
+                  <ul class="lectures__list">
+                    <li class="lectures__item lecture">
+                        <div class="lecture__top-part">
+                            <a href="" class="lecture__lecture-name">Название лекции</a>
                         </div>
-                        <div class="topic__bottom-part">
-                            <a href="" class="topic__link-to-lecture-task link-to-lecture-task">Задания</a>
-                            <div class="topic__button-expand button-expand">
+                        <div class="lecture__bottom-part">
+                            <div class="lecture__completion-rate">0%</div>
+                            <div class="lecture__button-expand button-expand">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
                                     </svg>
@@ -46,26 +46,18 @@
                         </div>
                     </li>
                     <li class="accordion">
-                        <div class="accordion__item lecture">
-                                <a href="" class="topic-of-lecture">Название лекции</a>
-                                <div class="lecture__button-expand button-expand">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
-                                    </svg>
-                                </div>
+                        <div class="accordion__item task">
+                                <a href="" class="task__task-name">Название задания</a>
+                                <div class="task__points-for-task">0/5</div>
                         </div>
-                        <div class="accordion__item lecture">
-                            <a href="" class="topic-of-lecture">Название лекции</a>
-                            <div class="lecture__button-expand button-expand">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
-                                </svg>
-                            </div>
+                        <div class="accordion__item task">
+                            <a href="" class="task__task-name">Название задания</a>
+                            <div class="task__points-for-task">0/5</div>
                     </div>
                     </li>
-                    <li class="topics__item topic--lock">
-                        <a href="" class="topic__topic-of-lecture--lock">Название темы</a>
-                        <a href="" class="topic__link-to-lecture-task link-to-lecture-task--lock">Задания</a>
+                    <li class="lectures__item lecture--lock">
+                        <a href="" class="lecture__lecture-name--lock">Название темы</a>
+                        <a href="" class="lecture__link-to-lecture-task link-to-lecture-task--lock">Задания</a>
                     </li>
                   </ul>
                 </div>
@@ -76,5 +68,5 @@
     </main>
     {% include 'footer.html' %}
 </div>
-<script type="text/javascript" src="{% static 'js/topic_list.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/lecture_list.js' %}"></script>
 {% endblock %}
