@@ -16,13 +16,37 @@
     flex-direction: column;
     gap: 15px;
 }
+&__item{
+    display: flex;
+    gap: 15px;
+}
+}
+
+.topic-of-task{
+    color: rgba(0, 0, 0, 0.80);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.task__points{
+    color: rgba(0, 0, 0, 0.80);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .topic{
     position: relative;
     padding: 15px 15px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     border-radius: 15px;
     border: 1px solid #B60000;
@@ -39,13 +63,14 @@
         align-items: center;
     }
     &__topic-of-lecture{
-        color: rgba(0, 0, 0, 0.80);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        color:#101923;
         text-align: center;
         font-family: Montserrat;
         font-size: 20px;
-        font-style: normal;
         font-weight: 400;
-        line-height: normal;
         &--lock{
             color: #FFF;
             text-align: center;
@@ -94,6 +119,9 @@
 }
 
 .link-to-lecture-task{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 4px 15px;
     font-weight: 500;
     font-size: 15px;
@@ -142,6 +170,7 @@
         font-style: normal;
         font-weight: 400;
         line-height: normal;
+        outline: none;
     }
     &__icon{
         flex-shrink: 0;
@@ -149,14 +178,18 @@
 }
 
 .button-expand{
-    width: 22px;
-    height: 22px;
+    padding: 4px 15px;
     border: 1px solid #B60000;
     background: #B60000;
     border-radius: 90px;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
     align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
 }
 .button-expand:hover{
     background: #780000;
