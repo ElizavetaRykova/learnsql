@@ -2,6 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 # from django.contrib.auth.forms import AuthenticationForm
 from .forms import MyAuthenticationForm, RegisterForm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
+from django.http import JsonResponse
+from .models import *
+import firebird.driver as fdb
+
 
 # Форма входа
 def signin(request):
@@ -44,3 +50,59 @@ def get_topic_list(request):
 # Отрисовка HTML-шаблона страницы учебника
 def get_book(request):
     return render(request, 'book.html')
+
+# Отрисовка HTML-шаблона страницы c заданием
+def get_task(request):
+    obj = Task.objects.all()
+    number_task = obj[0].task_id
+    task = obj[0].task_text
+    reference_quary = obj[0].task_solution
+    global REFERENCE_RESULT
+    global TASK_POINTS
+    TASK_POINTS = obj[0].task_max_points
+    with fdb.connect(
+        database=settings.RDB_CONF['database'], 
+        user=settings.RDB_CONF['user'], 
+        password=settings.RDB_CONF['password'], 
+        charset=settings.RDB_CONF['charset']).cursor() as cur:
+        cur.execute(reference_quary)
+        REFERENCE_RESULT = cur.fetchall()
+        cur.close()
+    response = {
+        "task" : task,
+        "number_task": number_task,
+        "results": REFERENCE_RESULT
+    }
+    return render(request, 'task.html', response)
+
+def check_solution(request):
+    sql_statement = request.POST.get('sql_statement')
+    sql_statement = sql_statement.replace('\n', ' ')
+    obj = Task.objects.all()
+    reference_quary = obj[0].task_solution
+    with fdb.connect(
+        database=settings.RDB_CONF['database'], 
+        user=settings.RDB_CONF['user'], 
+        password=settings.RDB_CONF['password'], 
+        charset=settings.RDB_CONF['charset']).cursor() as cur:
+        cur.execute(sql_statement)
+        result = cur.fetchall()
+        cur.close()
+    if REFERENCE_RESULT == result:
+        equal = True
+
+        id_user = Student.objects.get(username=request.user)
+        id_task = Task.objects.get(task_id=1)
+
+        p = Points(point=TASK_POINTS,ask=id_task,auth_user=id_user)
+        p.save()
+
+    else:
+        equal = False
+
+    response = {
+        "result" : result,
+        "equal": equal
+    }
+
+    return JsonResponse(data=response)

@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import firebird.driver.config as fdb_conf
+
+
+# fdb_conf.driver_config.
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,7 +90,7 @@ WSGI_APPLICATION = 'learnsql.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE' : 'django_reddatabase',
-        'NAME' : 'LEARNSQL.fdb', # Path to database or db alias
+        'NAME' : BASE_DIR / 'LEARNSQL.fdb', # Path to database or db alias
         'USER' : 'SYSDBA',           # Your db user
         'PASSWORD' : 'masterkey',    # db user password
         'HOST' : '127.0.0.1',        # Your host machine
@@ -126,6 +130,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'general.Student'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -141,3 +146,10 @@ SASS_PROCESSOR_ROOT = STATIC_ROOT
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RDB_CONF = {
+    'database': 'employee.fdb',
+    'user':'sysdba', 
+    'password':'masterkey', 
+    'charset':'UTF8'
+}

@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
-
+from general.models import Student
 
 class MyAuthenticationForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 
@@ -51,5 +51,5 @@ class RegisterForm(UserCreationForm):
     )
 
     class Meta:
-        model = User
+        model = Student
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', )

@@ -18,7 +18,7 @@
 }
 &__item{
     display: flex;
-    gap: 15px;
+    flex-direction: column;
 }
 }
 
@@ -46,15 +46,23 @@
     position: relative;
     padding: 15px 15px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     border-radius: 15px;
     border: 1px solid #B60000;
     background-color: #FFF;
-    &__top-part{
+    &__bottom-part-wrapper{
         display: flex;
         flex-direction: row;
-        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+    &__pass-percentage{
+        font-weight: 400;
+        font-size: 20px;
+        text-align: center;
+        color: #101923;
+        font-family: Montserrat;
     }
     &__bottom-part{
         display: flex;
@@ -66,11 +74,12 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        color:#101923;
         text-align: center;
         font-family: Montserrat;
+        font-weight: 500;
         font-size: 20px;
-        font-weight: 400;
+        text-align: center;
+        color: #101923;
         &--lock{
             color: #FFF;
             text-align: center;
@@ -178,19 +187,16 @@
 }
 
 .button-expand{
-    padding: 4px 15px;
-    border: 1px solid #B60000;
     background: #B60000;
     border-radius: 90px;
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    justify-content: center;
     align-items: center;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 18px;
-    color: #FFFFFF;
+    width: 23px;
+    height: 23px;
+    padding-right: 2px;
 }
+
 .button-expand:hover{
     background: #780000;
 }
@@ -213,4 +219,12 @@ border-left: 1px solid #B60000;
     border: 1px solid #B60000;
     background-color: #FFF;
 }
+}
+
+.lecture:hover{
+    background: #c64747;
+}
+
+.topic-of-task:hover{
+    color: white;
 }

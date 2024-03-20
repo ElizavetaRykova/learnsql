@@ -1,0 +1,122 @@
+{% extends 'head.html' %}
+
+{% load static %}
+
+{% block title%}
+    task
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'header.html' %}
+    <main>
+        <div class="task">
+            <div class="task__container--extrawide">
+                <div class="task__wrapper">
+                    <div class="task__sidebar">
+                        <div class="task__sidebar-wrapper">
+                            <div class="back-button">
+                                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.93516 0.343185C9.81713 0.0965533 9.50881 -0.0411083 9.19091 0.010921C9.05575 0.03304 8.65971 0.380813 5.6432 3.12607C2.62674 5.87137 2.24461 6.23181 2.22031 6.35481C2.15109 6.70502 1.95248 6.50159 5.6432 9.8605C9.33288 13.2184 9.11223 13.04 9.49322 12.9749C9.69293 12.9408 9.93565 12.7199 9.9731 12.5382C10.0443 12.1929 10.2121 12.3667 6.85544 9.30882L3.76453 6.49306L6.83597 3.696C8.5562 2.12943 9.92607 0.853213 9.94981 0.79498C10.0066 0.655915 10.0009 0.480514 9.93516 0.343185Z" fill="white" />
+                                </svg>
+                            </div>
+                            <div class="task__description description">
+                                <div class="description__header">
+                                    <div class="description__tab-task-number">Задание {{ number_task }}</div>
+                                    <div class="description__tab-textbook">Учебник</div>
+                                </div>
+                                <div class="description__body">{{ task }}</div>
+                            </div>
+                        </div>
+                        <div class="support-button">Запросить помощь</div>
+                    </div>
+                    <div class="task__workspace">
+                        <div class="task__workspace-top-wrapper">
+                            <div class="editor">
+                                <div class="editor__header">
+                                    <button class="button-run-query">
+                                        <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0.0529785 13.4298V1.66667C0.0529785 0.911746 0.85746 0.429057 1.52357 0.784314L13.2867 7.05799C14.0141 7.44593 13.986 8.49791 13.239 8.84652L1.47586 14.336C0.812883 14.6454 0.0529785 14.1614 0.0529785 13.4298Z" fill="#107100" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="editor__body">
+                                    <textarea class="editor__input-query">SQL-запрос</textarea>
+                                </div>
+                            </div>
+                            <div class="diagram">
+                                <div class="diagram__header">ER-диаграмма базы данных</div>
+                                <div class="diagram__body"></div>
+                            </div>
+                        </div>
+                        <div class="task__workspace-bottom-wrapper">
+                            <div class="result">
+                                <div class="result__header">
+                                    <div data-tab="tab-student-result" class="result__tab-header">Результат запроса</div>
+                                    <div data-tab="tab-reference-result" class="result__tab-header">Эталонный результат</div>
+                                </div>
+                                <div class="result__body">
+                                    <table data-tab="tab-student-result" class="result__tab-content">
+                                        <tbody>
+                                          
+                                        </tbody>
+                                      </table>
+                                    <table data-tab="tab-reference-result" class="result__tab-content">
+                                        <tbody>
+                                          {% for res in results %}
+                                          <tr>
+                                            {% for r_i in res %}
+                                              <td> {{ r_i }}</td>
+                                            {% endfor %}
+                                          </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+                            <div class="data">
+                                <div class="data__header">Данные таблицы </div>
+                                <div class="data__body"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% block javascript %}
+
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/modules/tabs.js' %}"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+<script>
+$(".button-run-query").bind('click', function(){
+    $.ajax({  
+      method: 'POST',
+      headers: {'X-CSRFToken': '{{ csrf_token }}'},
+      url:"{% url 'check_solution' %}",
+      data: {sql_statement:$(".editor__input-query").val()},
+      dataType: 'json',
+      success: function(data_response){
+        var items = data_response['result'];
+        var table_student_res = $('table[data-tab="tab-student-result"]');
+        table_student_res.empty();
+        $.each(items, function(index, row) {
+          var tr = $("<tr>");
+          $.each(row, function(index, item) {
+            tr.append($("<td>").text(item));
+          });
+          table_student_res.append(tr);
+        });
+        console.log(data_response['equal'])
+      }
+    });
+});
+</script>
+
+{% endblock javascript %}
+
+{% endblock %}
+
+

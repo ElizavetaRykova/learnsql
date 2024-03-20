@@ -1,0 +1,188 @@
+.task{
+    &__wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+     }
+    &__sidebar{
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    &__workspace{
+        display: flex;
+        width: 67%;
+        flex-direction: column;
+        justify-content: space-between;
+    } 
+    &__description{
+        height: max-content;
+    }
+    &__sidebar-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    &__workspace-top-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    &__workspace-bottom-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.editor{
+    background: white;
+    border: 1px solid rgba(16, 25, 35, 0.5);
+    border-radius: 15px;
+    width: 48%;
+    height: 325px;
+    &__header{
+        border-bottom: 1px solid rgba(16, 25, 35, 0.5);
+        padding: 4px 15px;
+    }
+    &__body{
+        padding: 5px 15px;
+    }
+}
+
+.diagram{
+    background: white;
+    border: 1px solid rgba(16, 25, 35, 0.5);
+    border-radius: 15px;
+    width: 48%;
+    height: 325px;
+    &__header{
+        border-bottom: 1px solid rgba(16, 25, 35, 0.5);
+        padding: 5px 15px;
+    }
+}
+
+.result{
+    background: white;
+    border: 1px solid rgba(16, 25, 35, 0.5);
+    border-radius: 15px;
+    width: 48%;
+    height: 492px;
+    &__header{
+        border-bottom: 1px solid rgba(16, 25, 35, 0.5);
+        display: flex;
+        flex-direction: row;
+    }
+    // &__tab-student-result{
+    //     padding: 5px 15px;
+    //     font-weight: 400;
+    //     font-size: 16px;
+    //     color: #101923;
+    // }
+    // &__tab-reference-result{
+    //     padding: 5px 15px;
+    //     font-weight: 400;
+    //     font-size: 16px;
+    //     color: #101923;
+    &__tab-header{
+        padding: 5px 15px;
+        font-weight: 400;
+        font-size: 16px;
+        color: #101923; 
+        &_active{
+            border-bottom: 1px solid #B60000;
+        
+        }
+    &__tab-header:hover{
+        background: rgba(16, 25, 35, 0.1);
+    }    
+    }
+    &__tab-content{
+        display: none;
+        &_active{
+            display: table;
+        }
+    }
+    
+}
+
+.data{
+    background: white;
+    border: 1px solid rgba(16, 25, 35, 0.5);
+    border-radius: 15px;
+    width: 48%;
+    height: 492px;
+    &__header{
+        border-bottom: 1px solid rgba(16, 25, 35, 0.5);
+        padding: 5px 15px;
+    }
+}
+
+.description{
+    background: white;
+    width: 92%;
+    border: 1px solid rgba(16, 25, 35, 0.5);
+    border-radius: 15px;
+    &__header{
+        border-bottom: 1px solid rgba(16, 25, 35, 0.5);
+        display: flex;
+        flex-direction: row;
+    }
+    &__tab-task-number{
+        padding: 5px 15px;
+        font-weight: 400;
+        font-size: 16px;
+        color: #101923;
+    }
+    &__tab-textbook{
+        padding: 5px 15px;
+        font-weight: 400;
+        font-size: 16px;
+        color: #101923;
+    }
+    &__body{
+        padding: 15px 15px;
+        font-weight: 400;
+        font-size: 15px;
+        color: #101923;
+    }
+}
+
+.back-button{
+    background: #B60000;
+    border-radius: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 23px;
+    height: 23px;
+    padding-right: 2px;
+}
+
+.back-button:hover{
+    background: #780000;
+    border: 1px solid #780000;
+}
+
+.support-button{
+    padding: 4px 15px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    background: #B60000;
+    border: 1px solid #B60000; 
+    border-radius: 15px;
+    height: max-content;
+}
+
+.support-button:hover{
+    background: #780000;
+    border: 1px solid #780000;
+}
+
