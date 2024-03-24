@@ -77,17 +77,9 @@
         display: flex;
         flex-direction: row;
     }
-    // &__tab-student-result{
-    //     padding: 5px 15px;
-    //     font-weight: 400;
-    //     font-size: 16px;
-    //     color: #101923;
-    // }
-    // &__tab-reference-result{
-    //     padding: 5px 15px;
-    //     font-weight: 400;
-    //     font-size: 16px;
-    //     color: #101923;
+    &__body{
+        overflow: auto;
+    }
     &__tab-header{
         padding: 5px 15px;
         font-weight: 400;
@@ -185,4 +177,3 @@
     background: #780000;
     border: 1px solid #780000;
 }
-

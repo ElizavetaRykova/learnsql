@@ -75,9 +75,31 @@
                                 </div>
                             </div>
                             <div class="data">
-                                <div class="data__header">Данные таблицы </div>
-                                <div class="data__body"></div>
-                            </div>
+                                <select id="selectElement" class="data__header">
+                                    <option>COUNTRY</option>
+                                    <option>CUSTOMER</option>
+                                    <option>DEPARTMENT</option>
+                                    <option>EMPLOYEE</option>
+                                    <option>EMPLOYEE_PROJECT</option>
+                                    <option>JOB</option>
+                                    <option>PROJECT</option>
+                                    <option>PROJ_DEPT_BUDGET</option>
+                                    <option>SALARY_HISTORY</option>
+                                    <option>SALES</option>
+                                </select>
+                                <div class="data__body">
+                                    <table data-tab="tab-table-data" class="result__table-data">
+                                        <tbody>
+                                            {% for res in results %}
+                                            <tr>
+                                              {% for r_i in res %}
+                                                <td> {{ r_i }}</td>
+                                              {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                    </table>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -90,6 +112,7 @@
 <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'js/modules/tabs.js' %}"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+<script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
 <script>
 $(".button-run-query").bind('click', function(){
     $.ajax({  
@@ -114,6 +137,37 @@ $(".button-run-query").bind('click', function(){
     });
 });
 </script>
+<script>
+    new SlimSelect({
+      select: '#selectElement',
+      settings: {
+        placeholderText: 'Custom Placeholder Text',
+      }
+    })
+</script>
+<script>
+    $(".data__header").bind('click', function(){
+        $.ajax({  
+          method: 'POST',
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          url:"{% url 'get_table_data' %}",
+          data: {selected_table:$(".data__header").val()},
+          dataType: 'json',
+          success: function(data_response){
+            var items = data_response['result'];
+            var table_data = $('table[data-tab="tab-table-data"]');
+            table_data.empty();
+            $.each(items, function(index, row) {
+              var tr = $("<tr>");
+              $.each(row, function(index, item) {
+                tr.append($("<td>").text(item));
+              });
+              table_data.append(tr);
+            });
+          }
+        });
+    });
+    </script>
 
 {% endblock javascript %}
 

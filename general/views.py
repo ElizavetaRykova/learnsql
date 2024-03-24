@@ -94,7 +94,7 @@ def check_solution(request):
         id_user = Student.objects.get(username=request.user)
         id_task = Task.objects.get(task_id=1)
 
-        p = Points(point=TASK_POINTS,ask=id_task,auth_user=id_user)
+        p = Points(point=TASK_POINTS,task=id_task,auth_user=id_user,answer=sql_statement)
         p.save()
 
     else:
@@ -106,3 +106,22 @@ def check_solution(request):
     }
 
     return JsonResponse(data=response)
+
+def get_table_data(request):
+    selected_table = request.POST.get('selected_table')
+    print(selected_table)
+    with fdb.connect(
+        database=settings.RDB_CONF['database'], 
+        user=settings.RDB_CONF['user'], 
+        password=settings.RDB_CONF['password'], 
+        charset=settings.RDB_CONF['charset']).cursor() as cur:
+        cur.execute(f'select * from {selected_table};')
+        result = cur.fetchall()
+        cur.close()
+    
+    response = {
+        "result" : result
+    }
+
+    return JsonResponse(data=response)
+            

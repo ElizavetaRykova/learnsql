@@ -27,7 +27,7 @@ class Lecture(models.Model):
         return self.lecture_name
 
 class Student(AbstractUser):
-    lecture_id = models.ForeignKey(Lecture, on_delete=models.CASCADE, null=True)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, null=True)
 
 class Task(models.Model):
     task_id = models.IntegerField(primary_key=True)
@@ -44,7 +44,8 @@ class Task(models.Model):
 class Points(models.Model):
     point_id = models.IntegerField(primary_key=True)
     point = models.IntegerField()
-    ask = models.ForeignKey(Task, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=3000)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 class StudentGroup(models.Model):
