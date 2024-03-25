@@ -44,8 +44,19 @@ def get_signup(request):
     return render(request, 'signup.html', {'form': form})
 
 # Отрисовка HTML-шаблона страницы со списком тем
+# <QuerySet [(1, 'Лекция 1'), (2, 'Лекция 2')]>
+# [(1, "имя лекции", [(1, "задание"),(2, "задание")]),
+#  (2, "имя лекции", [(3, "задание"),(4, "задание")]) ]
+
 def get_topic_list(request):
-    return render(request, 'topic_list.html')
+    topic_list = []
+    lecture_objs = Lecture.objects.values_list('lecture_id', 'lecture_name')
+    for lecture_obj in lecture_objs:
+        lecture_id = lecture_obj[0]
+        task_objs = Task.objects.values_list('task_id', 'task_name').filter(lecture=lecture_id)
+        topic_list.append((lecture_obj[0], lecture_obj[1], list(task_objs)))
+    
+    return render(request, 'topic_list.html', {'topic_list': topic_list})
 
 # Отрисовка HTML-шаблона страницы учебника
 def get_book(request):
@@ -53,24 +64,28 @@ def get_book(request):
 
 # Отрисовка HTML-шаблона страницы c заданием
 def get_task(request):
-    obj = Task.objects.all()
-    number_task = obj[0].task_id
-    task = obj[0].task_text
-    reference_quary = obj[0].task_solution
+    task_id = request.GET.get('id')
+
+    obj = Task.objects.values_list('task_text', 'task_solution', 'task_max_points').filter(task_id=task_id)
+    print(obj)
+    task = obj[0][0]
+    reference_quary = obj[0][1]
     global REFERENCE_RESULT
     global TASK_POINTS
-    TASK_POINTS = obj[0].task_max_points
+    TASK_POINTS = obj[0][2]
     with fdb.connect(
         database=settings.RDB_CONF['database'], 
         user=settings.RDB_CONF['user'], 
         password=settings.RDB_CONF['password'], 
-        charset=settings.RDB_CONF['charset']).cursor() as cur:
+        charset=settings.RDB_CONF['charset']) as con:
+        cur = con.cursor()
         cur.execute(reference_quary)
         REFERENCE_RESULT = cur.fetchall()
         cur.close()
+    
     response = {
         "task" : task,
-        "number_task": number_task,
+        "number_task": task_id,
         "results": REFERENCE_RESULT
     }
     return render(request, 'task.html', response)
@@ -84,7 +99,8 @@ def check_solution(request):
         database=settings.RDB_CONF['database'], 
         user=settings.RDB_CONF['user'], 
         password=settings.RDB_CONF['password'], 
-        charset=settings.RDB_CONF['charset']).cursor() as cur:
+        charset=settings.RDB_CONF['charset']) as con:
+        cur = con.cursor()
         cur.execute(sql_statement)
         result = cur.fetchall()
         cur.close()
@@ -114,7 +130,8 @@ def get_table_data(request):
         database=settings.RDB_CONF['database'], 
         user=settings.RDB_CONF['user'], 
         password=settings.RDB_CONF['password'], 
-        charset=settings.RDB_CONF['charset']).cursor() as cur:
+        charset=settings.RDB_CONF['charset']) as con:
+        cur = con.cursor()
         cur.execute(f'select * from {selected_table};')
         result = cur.fetchall()
         cur.close()
