@@ -19,6 +19,7 @@ from django.contrib.auth.models import User, AbstractUser
 class Lecture(models.Model):
     lecture_id = models.IntegerField(primary_key=True)
     lecture_name = models.CharField(max_length=100)
+    position = models.IntegerField()
     # topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     lecture_is_available = models.BooleanField(default=False)
     # auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -27,7 +28,7 @@ class Lecture(models.Model):
         return self.lecture_name
 
 class Student(AbstractUser):
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, null=True)
+    lecture_pos = models.IntegerField(default=1)
 
 class Task(models.Model):
     task_id = models.IntegerField(primary_key=True)

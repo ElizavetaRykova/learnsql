@@ -50,13 +50,19 @@ def get_signup(request):
 
 def get_topic_list(request):
     topic_list = []
-    lecture_objs = Lecture.objects.values_list('lecture_id', 'lecture_name')
-    for lecture_obj in lecture_objs:
+    max_available = Student.objects.get(username=request.user).lecture_pos
+    lecture_objs_available = Lecture.objects.values_list('lecture_id', 'lecture_name').filter(position__lte=max_available).order_by('position')
+    for lecture_obj in lecture_objs_available:
         lecture_id = lecture_obj[0]
         task_objs = Task.objects.values_list('task_id', 'task_name').filter(lecture=lecture_id)
         topic_list.append((lecture_obj[0], lecture_obj[1], list(task_objs)))
-    
-    return render(request, 'topic_list.html', {'topic_list': topic_list})
+
+    lecture_objs_lock = Lecture.objects.values_list('lecture_name').filter(position__gt=max_available).order_by('position')
+    topic_list_lock = []
+    for lecture_obj_lock in list(lecture_objs_lock):
+        topic_list_lock.append(lecture_obj_lock[0])
+        
+    return render(request, 'topic_list.html', {'topic_list': topic_list, 'topic_list_lock': list(topic_list_lock)})
 
 # Отрисовка HTML-шаблона страницы учебника
 def get_book(request):
