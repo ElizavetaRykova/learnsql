@@ -7,6 +7,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from .models import *
 import firebird.driver as fdb
+from django.db.models import Sum
 
 
 # Форма входа
@@ -70,9 +71,9 @@ def get_book(request):
 
 # Отрисовка HTML-шаблона страницы c заданием
 def get_task(request):
-    task_id = request.GET.get('id')
-
-    obj = Task.objects.values_list('task_text', 'task_solution', 'task_max_points').filter(task_id=task_id)
+    global TASK_ID
+    TASK_ID = request.GET.get('id')
+    obj = Task.objects.values_list('task_text', 'task_solution', 'task_max_points').filter(task_id=TASK_ID)
     print(obj)
     task = obj[0][0]
     reference_quary = obj[0][1]
@@ -91,7 +92,7 @@ def get_task(request):
     
     response = {
         "task" : task,
-        "number_task": task_id,
+        "number_task": TASK_ID,
         "results": REFERENCE_RESULT
     }
     return render(request, 'task.html', response)
@@ -114,7 +115,7 @@ def check_solution(request):
         equal = True
 
         id_user = Student.objects.get(username=request.user)
-        id_task = Task.objects.get(task_id=1)
+        id_task = Task.objects.get(task_id=TASK_ID)
 
         p = Points(point=TASK_POINTS,task=id_task,auth_user=id_user,answer=sql_statement)
         p.save()
@@ -122,6 +123,25 @@ def check_solution(request):
     else:
         equal = False
 
+    last_available = int(Student.objects.values_list("lecture_pos",  flat=True).filter(username=request.user)[0])
+    lecture = int(Task.objects.values_list("lecture", flat=True).filter(task_id=TASK_ID)[0])
+    lecture_pos = int(Lecture.objects.values_list("position", flat=True).filter(lecture_id=lecture)[0])
+    if last_available == lecture_pos:
+        max_points = Task.objects.filter(lecture_id=lecture).aggregate(Sum('task_max_points'))['task_max_points__sum']
+        id_user = int(Student.objects.values_list('id', flat=True).filter(username=request.user)[0])
+        all_points = Points.objects.values_list("point","task").filter(auth_user=id_user)
+        list_tasks = list(Task.objects.values_list("task_id", flat=True).filter(lecture_id=lecture))
+        sum_student = 0
+        for point, task in list(all_points):
+            if task in list_tasks:
+                sum_student += point
+        
+        if sum_student/max_points >= 0.8:
+            st = Student.objects.get(id=id_user)
+            st.lecture_pos += 1
+            st.save()
+    
+    
     response = {
         "result" : result,
         "equal": equal
