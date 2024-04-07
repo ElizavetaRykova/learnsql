@@ -167,4 +167,7 @@ def get_table_data(request):
     }
 
     return JsonResponse(data=response)
-            
+
+# Отрисовка HTML-шаблона страницы с решениями студентов
+def get_solutions(request):
+    return render(request, 'solutions.html')
