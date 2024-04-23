@@ -50,6 +50,12 @@ class Points(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
 
+class Question(models.Model):
+    question_id = models.IntegerField(primary_key=True)
+    question = models.CharField(max_length=3000, null=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
+
 class StudentGroup(models.Model):
     student_group_id = models.IntegerField(primary_key=True)
     student_group_name = models.CharField(max_length=100)
