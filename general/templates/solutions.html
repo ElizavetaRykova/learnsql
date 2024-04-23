@@ -31,27 +31,52 @@
                         </button>
                     </form>
                     <ul class="solutions__list">
+                        {% for point_id, answer, user_full_name, task_name, task_text in solutions %}
+                            <li>
+                                <div class="solutions__item solution">
+                                    <div class="solution__student-fio">{{ user_full_name }}</div>
+                                    <div class="solution__wrapper-accordion-header">
+                                        <div class="solution__task-number">{{ task_name }}</div>
+                                        <div class="solution__button-expand button-expand">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="solution__text-block">
+                                    <div class="solution__text-block-wrapper">
+                                        <div class="solution__task-text">{{ task_text }}</div>
+                                        <div class="solution__student-query-text">{{ answer }}</div>
+                                    </div>
+                                    <div class="solution__comment">
+                                        <input placeholder="Введите комментарий" type="text" class="solution__comment-text" data-point-id="{{ point_id }}">
+                                    </div>
+                                    <button class="comment-button" data-point-id="{{ point_id }}">Комментировать</button>
+                                </div>
+                            </li>
+                        {% endfor %}
                         <li>
-                            <div class="solutions__item solution">
-                                <div class="solution__student-fio">Студент</div>
-                                <div class="solution__wrapper-accordion-header">
-                                    <div class="solution__task-number">Задание</div>
-                                    <div class="solution__button-expand button-expand">
+                            <div class="solutions__item question">
+                                <div class="question__student-fio">Вопрос от: Студент</div>
+                                <div class="question__wrapper-accordion-header">
+                                    <div class="question__task-number">Задание</div>
+                                    <div class="question__button-expand button-expand">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
                                         </svg>
                                     </div>
                                 </div>
                             </div>
-                            <div class="solution__text-block">
-                                <div class="solution__text-block-wrapper">
-                                    <div class="solution__task-text">Задание: текст задания</div>
-                                    <div class="solution__student-query-text">Запрос студента</div>
+                            <div class="question__text-block">
+                                <div class="question__text-block-wrapper">
+                                    <div class="question__task-text">Задание: текст задания</div>
+                                    <div class="question__student-question-text">Вопрос студента</div>
                                 </div>
-                                <div class="solution__comment">
-                                    <input placeholder="Введите комментарий" type="text" class="solution__comment-text">
+                                <div class="question__comment">
+                                    <input placeholder="Введите комментарий" type="text" class="question__comment-text">
                                 </div>
-                                <button class="support-button">Комментировать</button>
+                                <button class="comment-button">Комментировать</button>
                             </div>
                         </li>
                     </ul>
@@ -63,5 +88,37 @@
     </main>
     {% include 'footer.html' %}
 </div>
+{% block javascript %}
 <script type="text/javascript" src="{% static 'js/solutions.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+<script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+
+<script>
+    $(".comment-button").bind('click', function(){
+        var point_index = $(this).attr('data-point-id');
+        $.ajax({
+          method: 'POST',
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          url:"{% url 'add_comment' %}",
+          data: {text_comment:$(".solution__comment-text[data-point-id='" + point_index + "']").val(), 
+                 point_id:point_index},
+          dataType: 'json',
+          success: function(data_response){
+            // var items = data_response['result'];
+            // var table_student_res = $('table[data-tab="tab-student-result"]');
+            // table_student_res.empty();
+            // $.each(items, function(index, row) {
+            //   var tr = $("<tr>");
+            //   $.each(row, function(index, item) {
+            //     tr.append($("<td>").text(item));
+            //   });
+            //   table_student_res.append(tr);
+            // });
+            // console.log(data_response['equal'])
+          }
+        });
+    });
+    </script>
+
+{% endblock javascript %}
 {% endblock %}

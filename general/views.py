@@ -20,7 +20,7 @@ def signin(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('topic_list/')
+                return redirect('/topic_list')
             else:
                 form.add_error(None, 'Invalid username or password')
     else:
@@ -39,7 +39,7 @@ def get_signup(request):
             # выполняем аутентификацию
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('topic_list/')
+            return redirect('/topic_list')
     else:
         form = RegisterForm()
     return render(request, 'signup.html', {'form': form})
@@ -168,6 +168,39 @@ def get_table_data(request):
 
     return JsonResponse(data=response)
 
+
+# [[point_id, answer, user_full_name, task_name], [point_id, answer, user_full_name, task_name]]
+
 # Отрисовка HTML-шаблона страницы с решениями студентов
 def get_solutions(request):
-    return render(request, 'solutions.html')
+    solutions = []
+    objs = Points.objects.values_list('point_id', 'answer', 'auth_user_id', 'task_id')
+    for obj in objs:
+        solution = []
+        solution.append(obj[0])
+        solution.append(obj[1])
+        name = Student.objects.values_list('first_name', 'last_name').filter(id=obj[2])
+        solution.append(f"{name[0][0]} {name[0][1]}")
+        task_name = Task.objects.values_list('task_name', 'task_text').filter(task_id=obj[3])
+        solution.append(f"{task_name[0][0]}")
+        solution.append(f"{task_name[0][1]}")
+        solutions.append(solution)
+    
+    print(solutions)
+    respons = {
+        "solutions": solutions
+    }
+    return render(request, 'solutions.html', respons)
+
+def add_comment(request):
+    text_comment = request.POST.get('text_comment')
+    point_id = request.POST.get('point_id')
+
+    point = Points.objects.get(point_id=point_id)
+    point.comment = text_comment
+    point.save()
+
+    response = {
+        "added": True
+    }
+    return JsonResponse(data=response)
