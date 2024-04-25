@@ -28,7 +28,13 @@
                                 <div class="description__body">{{ task }}</div>
                             </div>
                         </div>
-                        <div class="support-button">Запросить помощь</div>
+                        <div class="task__support-button support-button">Задать вопрос</div>
+                        <div class="task__question">
+                          <div class="task__question-comment">
+                            <input placeholder="Введите комментарий" type="text" class="task__question-comment-text">
+                            <div class="question__support-button support-button">Отправить вопрос</div>
+                          </div>
+                        </div>
                     </div>
                     <div class="task__workspace">
                         <div class="task__workspace-top-wrapper">
@@ -167,7 +173,21 @@ $(".button-run-query").bind('click', function(){
           }
         });
     });
-    </script>
+</script>
+
+<script>
+  $(".question__support-button").bind('click', function(){
+      $.ajax({
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        url:"{% url 'add_question' %}",
+        data: {text_question:$(".task__question-comment-text").val()},
+        dataType: 'json',
+        success: function(data_response){
+        }
+      });
+  });
+</script>
 
 {% endblock javascript %}
 

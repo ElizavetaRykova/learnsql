@@ -53,6 +53,7 @@ class Points(models.Model):
 class Question(models.Model):
     question_id = models.IntegerField(primary_key=True)
     question = models.CharField(max_length=3000, null=True)
+    comment = models.CharField(max_length=1000, null=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
 

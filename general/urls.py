@@ -11,7 +11,9 @@ urlpatterns = [
     path('solutions/', views.get_solutions, name='solutions'),
     path('check_solution/', views.check_solution, name='check_solution'),
     path('get_table_data/', views.get_table_data, name='get_table_data'),
+    path('add_answer/', views.add_answer, name='add_answer'),
     path('add_comment/', views.add_comment, name='add_comment'),
+    path('add_question/', views.add_question, name='add_question'),
     #path('accounts/', include('django.contrib.auth.urls'))
 ]
 

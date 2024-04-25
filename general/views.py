@@ -174,21 +174,38 @@ def get_table_data(request):
 # Отрисовка HTML-шаблона страницы с решениями студентов
 def get_solutions(request):
     solutions = []
-    objs = Points.objects.values_list('point_id', 'answer', 'auth_user_id', 'task_id')
-    for obj in objs:
-        solution = []
-        solution.append(obj[0])
-        solution.append(obj[1])
-        name = Student.objects.values_list('first_name', 'last_name').filter(id=obj[2])
-        solution.append(f"{name[0][0]} {name[0][1]}")
-        task_name = Task.objects.values_list('task_name', 'task_text').filter(task_id=obj[3])
-        solution.append(f"{task_name[0][0]}")
-        solution.append(f"{task_name[0][1]}")
-        solutions.append(solution)
-    
-    print(solutions)
+    questions = []
+    if request.user.is_staff == True:
+        objs = Points.objects.values_list('point_id', 'answer', 'auth_user_id', 'task_id')
+        for obj in objs:
+            solution = []
+            solution.append(obj[0])
+            solution.append(obj[1])
+            name = Student.objects.values_list('first_name', 'last_name').filter(id=obj[2])
+            solution.append(f"{name[0][0]} {name[0][1]}")
+            task_name = Task.objects.values_list('task_name', 'task_text').filter(task_id=obj[3])
+            solution.append(f"{task_name[0][0]}")
+            solution.append(f"{task_name[0][1]}")
+            solutions.append(solution)
+        
+        objs = Question.objects.values_list('question_id', 'question', 'auth_user_id', 'task_id')
+        for obj in objs:
+            question = []
+            question.append(obj[0])
+            question.append(obj[1])
+            name = Student.objects.values_list('first_name', 'last_name').filter(id=obj[2])
+            question.append(f"{name[0][0]} {name[0][1]}")
+            task_name = Task.objects.values_list('task_name', 'task_text').filter(task_id=obj[3])
+            question.append(f"{task_name[0][0]}")
+            question.append(f"{task_name[0][1]}")
+            questions.append(question)
+
+    else:
+       pass 
+
     respons = {
-        "solutions": solutions
+        "solutions": solutions,
+        "questions": questions
     }
     return render(request, 'solutions.html', respons)
 
@@ -199,6 +216,31 @@ def add_comment(request):
     point = Points.objects.get(point_id=point_id)
     point.comment = text_comment
     point.save()
+
+    response = {
+        "added": True
+    }
+    return JsonResponse(data=response)
+
+def add_answer(request):
+    text_answer = request.POST.get('text_answer')
+    question_id = request.POST.get('question_id')
+
+    question = Question.objects.get(question_id=question_id)
+    question.comment = text_answer
+    question.save()
+
+    response = {
+        "added": True
+    }
+    return JsonResponse(data=response)
+
+def add_question(request):
+    text_question = request.POST.get('text_question')
+    id_user = Student.objects.get(username=request.user)
+    id_task = Task.objects.get(task_id=TASK_ID)
+    question = Question(question=text_question,task=id_task,auth_user=id_user)
+    question.save()
 
     response = {
         "added": True

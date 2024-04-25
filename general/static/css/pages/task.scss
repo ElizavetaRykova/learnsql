@@ -171,9 +171,40 @@
     border: 1px solid #B60000; 
     border-radius: 15px;
     height: max-content;
+    float: right;
 }
 
 .support-button:hover{
     background: #780000;
     border: 1px solid #780000;
+}
+
+.task__question{
+    display: none;
+    width: 92%;
+    margin-top: 15px;
+}
+
+.task__question-comment{
+    display: flex;
+    flex-direction:column;
+}
+
+.task__question-comment-text{
+    padding: 15px 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(16, 25, 35, 0.5);
+    background-color: #FFF;
+    margin-bottom: 10px;
+    color: rgba(16, 25, 35, 0.80);
+    font-family: Montserrat;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    outline: none;
+}
+
+.question__support-button{
+    align-self: flex-end;
 }
