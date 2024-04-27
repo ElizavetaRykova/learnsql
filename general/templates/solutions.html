@@ -81,6 +81,50 @@
                             </div>
                         </li>
                         {% endfor %}
+                        {% for question_id, question, comment, task_name in answers %}
+                        <li>
+                            <div class="solutions__item answer">
+                                <div class="answer__student-fio">Ответ на вопрос</div>
+                                <div class="answer__wrapper-accordion-header">
+                                    <div class="answer__task-number">{{ task_name }}</div>
+                                    <div class="answer__button-expand button-expand">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="answer__text-block">
+                                <div class="answer__text-block-wrapper">
+                                    <div class="answer__student-question-text">Вопрос: {{ question }}</div>
+                                    <div class="answer__task-text">Ответ: {{ comment }}</div>                                    
+                                </div>
+                                <button class="answer__comment-button comment-button" data-question-id="{{ question_id }}">Просмотрено</button>
+                            </div>
+                        </li>
+                        {% endfor %}
+                        {% for point_id, answer, task_name, comment in comments %}
+                        <li>
+                            <div class="solutions__item comment">
+                                <div class="comment__student-fio">Комментарий к решению</div>
+                                <div class="comment__wrapper-accordion-header">
+                                    <div class="comment__task-number">{{ task_name }}</div>
+                                    <div class="comment__button-expand button-expand">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.343185 0.0648389C0.0965533 0.18287 -0.0411083 0.491195 0.010921 0.809095C0.03304 0.944248 0.380813 1.34029 3.12607 4.3568C5.87137 7.37326 6.23181 7.75539 6.35481 7.77969C6.70502 7.84891 6.50159 8.04752 9.8605 4.3568C13.2184 0.667125 13.04 0.887769 12.9749 0.506775C12.9408 0.307068 12.7199 0.0643522 12.5382 0.026902C12.1929 -0.044306 12.3667 -0.212121 9.30882 3.14456L6.49306 6.23547L3.696 3.16403C2.12943 1.4438 0.853213 0.0739276 0.79498 0.0501916C0.655915 -0.00657195 0.480514 -0.000891544 0.343185 0.0648389Z" fill="white"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment__text-block">
+                                <div class="comment__text-block-wrapper">
+                                    <div class="comment__student-question-text">Решение: {{ answer }}</div>
+                                    <div class="comment__task-text">Комментарий к решению: {{ comment }}</div>                                    
+                                </div>
+                                <button class="comment__comment-button comment-button" data-point-id="{{ point_id }}">Просмотрено</button>
+                            </div>
+                        </li>
+                        {% endfor %}
                     </ul>
                   </div>
                   <div class="solutions__sidebar"></div>
@@ -112,6 +156,21 @@
 </script>
 
 <script>
+    $(".answer__comment-button").bind('click', function(){
+        var question_index = $(this).attr('data-question-id');
+        $.ajax({
+          method: 'POST',
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          url:"{% url 'view_answer' %}",
+          data: {question_id:question_index},
+          dataType: 'json',
+          success: function(data_response){
+          }
+        });
+    });
+</script>
+
+<script>
     $(".question__comment-button").bind('click', function(){
         var question_index = $(this).attr('data-question-id');
         $.ajax({
@@ -126,6 +185,22 @@
         });
     });
 </script>
+
+<script>
+    $(".comment__comment-button").bind('click', function(){
+        var point_index = $(this).attr('data-point-id');
+        $.ajax({
+          method: 'POST',
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          url:"{% url 'view_comment' %}",
+          data: {point_id:point_index},
+          dataType: 'json',
+          success: function(data_response){
+          }
+        });
+    });
+</script>
+
 
 {% endblock javascript %}
 {% endblock %}

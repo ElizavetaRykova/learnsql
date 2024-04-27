@@ -49,6 +49,7 @@ class Points(models.Model):
     comment = models.CharField(max_length=1000, null=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
+    is_viewed = models.BooleanField(default=False)
 
 class Question(models.Model):
     question_id = models.IntegerField(primary_key=True)
@@ -56,6 +57,8 @@ class Question(models.Model):
     comment = models.CharField(max_length=1000, null=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(Student, on_delete=models.CASCADE)
+    is_viewed = models.BooleanField(default=False)
+    is_viewed_student = models.BooleanField(default=False)
 
 class StudentGroup(models.Model):
     student_group_id = models.IntegerField(primary_key=True)

@@ -14,6 +14,8 @@ urlpatterns = [
     path('add_answer/', views.add_answer, name='add_answer'),
     path('add_comment/', views.add_comment, name='add_comment'),
     path('add_question/', views.add_question, name='add_question'),
+    path('view_answer/', views.view_answer, name='view_answer'),
+    path('view_comment/', views.view_comment, name='view_comment'),
     #path('accounts/', include('django.contrib.auth.urls'))
 ]
 
