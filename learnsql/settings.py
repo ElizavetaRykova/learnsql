@@ -153,3 +153,10 @@ RDB_CONF = {
     'password':'masterkey', 
     'charset':'UTF8'
 }
+
+RDB_CONF_STUDENT = {
+    'database': 'employee.fdb',
+    'user':'student', 
+    'password':'student', 
+    'charset':'UTF8'
+}

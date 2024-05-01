@@ -17,9 +17,9 @@
           </li>
         </ul>
       </nav>
-      <div class="header__user-name">
-        Артем Иванов
-      </div>
+      {% if request.user.is_authenticated %}
+        <div class="header__user-name">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+      {% endif %}
     </div>
   </div>
 </header>
