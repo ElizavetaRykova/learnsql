@@ -160,7 +160,7 @@ def check_solution(request):
         all_points = Points.objects.values_list("point","task").filter(auth_user=id_user)
         list_tasks = list(Task.objects.values_list("task_id", flat=True).filter(lecture_id=lecture))
         sum_student = 0
-        for point, task in list(all_points):
+        for point, task in list(all_points):       
             if task in list_tasks:
                 sum_student += point
         

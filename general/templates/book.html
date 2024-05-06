@@ -11,8 +11,9 @@
     {% include 'header.html' %}
     <main>
         <div class="book">
-            <div class="book__content">дока, сгенерированная sphinx</div>
-            <a href="" class="book__link-to-lecture-task link-to-lecture-task">Задания</a>
+            <!-- <div class="book__content">дока, сгенерированная sphinx</div> -->
+            <iframe class="book__content" src="{% static 'guide/build/html/index.html' %}" width="100%" height="100%"></iframe>
+            <!-- <a href="" class="book__link-to-lecture-task link-to-lecture-task">Задания</a> -->
         </div>    
     </main>
     {% include 'footer.html' %}
