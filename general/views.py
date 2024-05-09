@@ -116,21 +116,25 @@ def check_solution(request):
     sql_statement = sql_statement.replace('\n', ' ')
     obj = Task.objects.all()
     reference_quary = obj[0].task_solution
-
     with fdb.connect_server(server='localhost', user=settings.RDB_CONF['user'], password=settings.RDB_CONF['password']) as srv:
         home_directory = srv.info.home_directory
     subprocess.run([f"{home_directory}nbackup.exe", "-L", f"{home_directory}examples/empbuild/employee.fdb", "-u", settings.RDB_CONF['user'], "-p", settings.RDB_CONF['password']])
     time.sleep(1)
 
-    with fdb.connect(
-        database=settings.RDB_CONF_STUDENT['database'], 
-        user=settings.RDB_CONF_STUDENT['user'], 
-        password=settings.RDB_CONF_STUDENT['password'], 
-        charset=settings.RDB_CONF_STUDENT['charset']) as con:
-        cur = con.cursor()
-        cur.execute(sql_statement)
-        result = cur.fetchall()
-        cur.close()
+    result = ""
+    error = ""
+    try:
+        with fdb.connect(
+            database=settings.RDB_CONF_STUDENT['database'], 
+            user=settings.RDB_CONF_STUDENT['user'], 
+            password=settings.RDB_CONF_STUDENT['password'], 
+            charset=settings.RDB_CONF_STUDENT['charset']) as con:
+            cur = con.cursor()
+            cur.execute(sql_statement)
+            result = cur.fetchall()
+            cur.close()
+    except Exception as exp:
+        error = str(exp)
     if REFERENCE_RESULT == result:
         equal = True
 
@@ -172,7 +176,8 @@ def check_solution(request):
     
     response = {
         "result" : result,
-        "equal": equal
+        "equal": equal,
+        "error": error
     }
 
     return JsonResponse(data=response)

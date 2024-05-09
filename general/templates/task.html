@@ -47,7 +47,8 @@
                                     </button>
                                 </div>
                                 <div class="editor__body">
-                                    <textarea class="editor__input-query" id="code" name="code">SQL-запрос</textarea>
+                                    <textarea class="editor__input-query" id="code" name="code"></textarea>
+                                    <div class="editor__error-output">вывод ошибки</div>
                                 </div>
                             </div>
                             <div class="diagram">
@@ -137,20 +138,30 @@ $(".button-run-query").bind('click', function(){
       method: 'POST',
       headers: {'X-CSRFToken': '{{ csrf_token }}'},
       url:"{% url 'check_solution' %}",
-      data: {sql_statement:$(".editor__input-query").val()},
+      data: {sql_statement: editor.getValue()},
       dataType: 'json',
       success: function(data_response){
         var items = data_response['result'];
-        var table_student_res = $('table[data-tab="tab-student-result"]');
-        table_student_res.empty();
-        $.each(items, function(index, row) {
-          var tr = $("<tr>");
-          $.each(row, function(index, item) {
-            tr.append($("<td>").text(item));
+        if (items) {
+          var table_student_res = $('table[data-tab="tab-student-result"]');
+          table_student_res.empty();
+          $.each(items, function(index, row) {
+            var tr = $("<tr>");
+            $.each(row, function(index, item) {
+              tr.append($("<td>").text(item));
+            });
+            table_student_res.append(tr);
           });
-          table_student_res.append(tr);
-        });
+        }
         console.log(data_response['equal'])
+        var error = data_response['error'];
+        if (error) {
+          console.log(error)
+          $(".editor__error-output").text(error).fadeIn();;
+        }
+        else{
+          $(".editor__error-output").hide().html(html);
+        }
       }
     });
 });
