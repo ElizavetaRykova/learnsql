@@ -23,7 +23,7 @@
                             <div class="task__description description">
                                 <div class="description__header">
                                     <div class="description__tab-task-number">Задание {{ number_task }}</div>
-                                    <div class="description__tab-textbook">Учебник</div>
+                                    <!-- <div class="description__tab-textbook">Учебник</div> -->
                                 </div>
                                 <div class="description__body">{{ task }}</div>
                             </div>
@@ -47,7 +47,7 @@
                                     </button>
                                 </div>
                                 <div class="editor__body">
-                                    <textarea class="editor__input-query">SQL-запрос</textarea>
+                                    <textarea class="editor__input-query" id="code" name="code">SQL-запрос</textarea>
                                 </div>
                             </div>
                             <div class="diagram">
@@ -119,6 +119,18 @@
 <!-- <script type="text/javascript" src="{% static 'js/modules/tabs.js' %}"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/perl/perl.min.js"></script>
+
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    lineNumbers: true,
+    mode: 'text/x-perl',
+    matchBrackets: true,
+});
+editor.setOption('theme', 'cobalt');
+</script>
+
 <script>
 $(".button-run-query").bind('click', function(){
     $.ajax({  
@@ -184,6 +196,7 @@ $(".button-run-query").bind('click', function(){
         data: {text_question:$(".task__question-comment-text").val()},
         dataType: 'json',
         success: function(data_response){
+          $('.task__question').hide().html(html);
         }
       });
   });
