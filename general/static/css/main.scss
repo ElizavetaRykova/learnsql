@@ -64,6 +64,37 @@ main{
   }
 }
 
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid rgba(16, 25, 35, 0.5);
+}
+thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+}
+
+th {
+  padding: 10px;
+  border: 1px solid rgba(16, 25, 35, 0.5);
+}
+
+td {
+  border: 1px solid rgba(16, 25, 35, 0.5);
+  padding: 10px;
+}
+
 // Ограничивающий контейнер ======================================================================================================================================================================================================================
 
 /*

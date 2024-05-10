@@ -48,8 +48,6 @@
     height: 325px;
     overflow: hidden;
     position: relative;
-    // display: flex;
-    // flex-direction: column;
     &__header{
         border-bottom: 1px solid rgba(16, 25, 35, 0.5);
         padding: 4px 15px;
@@ -88,13 +86,11 @@
     border-radius: 15px;
     width: 48%;
     height: 492px;
+    overflow: auto;
     &__header{
         border-bottom: 1px solid rgba(16, 25, 35, 0.5);
         display: flex;
         flex-direction: row;
-    }
-    &__body{
-        overflow: auto;
     }
     &__tab-header{
         padding: 5px 15px;
@@ -124,6 +120,7 @@
     border-radius: 15px;
     width: 48%;
     height: 492px;
+    overflow: auto;
     &__header{
         border-bottom: 1px solid rgba(16, 25, 35, 0.5);
         padding: 5px 15px;
