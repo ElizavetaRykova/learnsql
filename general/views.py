@@ -96,7 +96,10 @@ def get_task(request):
         charset=settings.RDB_CONF['charset']) as con:
         cur = con.cursor()
         cur.execute(reference_quary)
+
+        col_names = cur.to_dict(cur.fetchone())
         REFERENCE_RESULT = cur.fetchall()
+        REFERENCE_RESULT.insert(0, tuple(col_names))
         cur.close()
     
     delta_file = home_directory + "examples/empbuild/employee.fdb.delta"
@@ -131,7 +134,9 @@ def check_solution(request):
             charset=settings.RDB_CONF_STUDENT['charset']) as con:
             cur = con.cursor()
             cur.execute(sql_statement)
+            col_names = cur.to_dict(cur.fetchone())
             result = cur.fetchall()
+            result.insert(0, tuple(col_names))
             cur.close()
     except Exception as exp:
         error = str(exp)
@@ -192,7 +197,9 @@ def get_table_data(request):
         charset=settings.RDB_CONF['charset']) as con:
         cur = con.cursor()
         cur.execute(f'select * from {selected_table};')
+        col_names = cur.to_dict(cur.fetchone())
         result = cur.fetchall()
+        result.insert(0, tuple(col_names))
         cur.close()
     
     response = {
@@ -325,4 +332,27 @@ def view_comment(request):
     response = {
         "added": True
     }
+    return JsonResponse(data=response)
+
+def search(request):
+    search_val = request.POST.get('search_val')
+
+    solutions = []
+
+    result = Points.objects.filter(task__task_name__icontains=search_val, is_viewed=False)
+    for res in result:
+        solution = []
+        solution.append(res.point_id)
+        solution.append(res.answer)
+        solution.append(f"{res.auth_user.first_name} {res.auth_user.last_name}")
+        solution.append(res.task.task_name)
+        solution.append(res.task.task_text)
+        solutions.append(solution)
+        print(solution)
+
+
+    response = {
+        "solutions": solutions
+    }
+
     return JsonResponse(data=response)

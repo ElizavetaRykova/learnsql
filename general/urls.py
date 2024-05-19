@@ -16,6 +16,7 @@ urlpatterns = [
     path('add_question/', views.add_question, name='add_question'),
     path('view_answer/', views.view_answer, name='view_answer'),
     path('view_comment/', views.view_comment, name='view_comment'),
+    path('search/', views.search, name='search'),
     #path('accounts/', include('django.contrib.auth.urls'))
 ]
 
