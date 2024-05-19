@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="solution__text-block">
+                                <div class="solution__text-block" data-point-id="{{ point_id }}">
                                     <div class="solution__text-block-wrapper">
                                         <div class="solution__task-text">{{ task_text }}</div>
                                         <div class="solution__student-query-text">{{ answer }}</div>
@@ -160,24 +160,7 @@
                  point_id:point_index},
           dataType: 'json',
           success: function(data_response){
-            $('.solution__text-block').hide().html(html);
-          }
-        });
-    });
-</script>
-
-<script>
-    $(".solution__comment-button").bind('click', function(){
-        var point_index = $(this).attr('data-point-id');
-        $.ajax({
-          method: 'POST',
-          headers: {'X-CSRFToken': '{{ csrf_token }}'},
-          url:"{% url 'add_comment' %}",
-          data: {text_comment:$(".solution__comment-text[data-point-id='" + point_index + "']").val(), 
-                 point_id:point_index},
-          dataType: 'json',
-          success: function(data_response){
-            $('.solution__text-block').hide().html(html);
+            $(".solution__text-block[data-point-id='" + point_index + "']").hide().html(html);
           }
         });
     });
@@ -194,7 +177,7 @@
                  question_id:question_index},
           dataType: 'json',
           success: function(data_response){
-            // $('.question').hide().html(html);
+            $(".question__text-block[data-point-id='" + point_index + "']").hide().html(html);
           }
         });
     });

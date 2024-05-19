@@ -1,11 +1,11 @@
-const expand = document.querySelector('.button-expand');
-const accordion_item = document.querySelectorAll('.accordion__item');
-expand.addEventListener('click', (e) => {
-    for (let i = 0; i < accordion_item.length; i++) {
-        // slideDown(accordion_item[i]);
-        slideToggle(accordion_item[i]);
-      }
-  });
+const expand = document.querySelectorAll('.button-expand');
+const accordion_item = document.querySelectorAll('.accordion');
+
+for (let i = 0; i < expand.length; i++) {
+    expand[i].addEventListener('click', (e) => {
+            slideToggle(accordion_item[i]);
+    });
+}
 
 const slideUp = (target, duration = 500) => {
 

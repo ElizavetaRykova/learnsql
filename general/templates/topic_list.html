@@ -45,16 +45,7 @@
                             </div>
                     </li>
                     <li class="accordion">
-                        <!-- <a href="{% url 'task' %}" class="accordion__item lecture">
-                            <div class="topic-of-task">Название задания</div>
-                            <div class="task__points">балл</div>
-                        </a> -->
                         {% for id_task, name_task in task_list %}
-                        <!-- <div class="accordion__item lecture">
-                            <a href="" class="topic-of-task"> {{ name_task }} </a>
-                            <div class="task__points">балл</div>
-                        </div> -->
-
                         <a href="{% url 'task' %}?id={{ id_task }}" class="accordion__item lecture">
                             <div class="topic-of-task"> {{ name_task }} </div>
                             <div class="task__points">5</div>
@@ -69,9 +60,6 @@
                     </li>
                     {% endfor %}
                   </ul>
-
-                  
-
                 </div>
                 <div class="lesctions__sidebar sidebar"></div>
               </div>
