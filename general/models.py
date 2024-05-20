@@ -37,6 +37,7 @@ class Task(models.Model):
     task_text = models.TextField()
     task_solution = models.TextField()
     task_max_points = models.IntegerField()
+    key_statement = models.CharField(max_length=100, null=True)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
 
     def __str__(self):

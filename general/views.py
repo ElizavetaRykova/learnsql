@@ -75,13 +75,15 @@ def get_book(request):
 def get_task(request):
     global TASK_ID
     TASK_ID = request.GET.get('id')
-    obj = Task.objects.values_list('task_text', 'task_solution', 'task_max_points').filter(task_id=TASK_ID)
+    obj = Task.objects.values_list('task_text', 'task_solution', 'task_max_points', 'key_statement').filter(task_id=TASK_ID)
     print(obj)
     task = obj[0][0]
     reference_quary = obj[0][1]
     global REFERENCE_RESULT
     global TASK_POINTS
+    global KEY_STATEMENT
     TASK_POINTS = obj[0][2]
+    KEY_STATEMENT = obj[0][3]
 
     with fdb.connect_server(server='localhost', user=settings.RDB_CONF['user'], password=settings.RDB_CONF['password']) as srv:
         home_directory = srv.info.home_directory
@@ -116,74 +118,81 @@ def get_task(request):
 
 def check_solution(request):
     sql_statement = request.POST.get('sql_statement')
-    sql_statement = sql_statement.replace('\n', ' ')
-    obj = Task.objects.all()
-    reference_quary = obj[0].task_solution
-    with fdb.connect_server(server='localhost', user=settings.RDB_CONF['user'], password=settings.RDB_CONF['password']) as srv:
-        home_directory = srv.info.home_directory
-    subprocess.run([f"{home_directory}nbackup.exe", "-L", f"{home_directory}examples/empbuild/employee.fdb", "-u", settings.RDB_CONF['user'], "-p", settings.RDB_CONF['password']])
-    time.sleep(1)
+    if KEY_STATEMENT in sql_statement:
+        sql_statement = sql_statement.replace('\n', ' ')
+        obj = Task.objects.all()
+        reference_quary = obj[0].task_solution
+        with fdb.connect_server(server='localhost', user=settings.RDB_CONF['user'], password=settings.RDB_CONF['password']) as srv:
+            home_directory = srv.info.home_directory
+        subprocess.run([f"{home_directory}nbackup.exe", "-L", f"{home_directory}examples/empbuild/employee.fdb", "-u", settings.RDB_CONF['user'], "-p", settings.RDB_CONF['password']])
+        time.sleep(1)
 
-    result = ""
-    error = ""
-    try:
-        with fdb.connect(
-            database=settings.RDB_CONF_STUDENT['database'], 
-            user=settings.RDB_CONF_STUDENT['user'], 
-            password=settings.RDB_CONF_STUDENT['password'], 
-            charset=settings.RDB_CONF_STUDENT['charset']) as con:
-            cur = con.cursor()
-            cur.execute(sql_statement)
-            col_names = cur.to_dict(cur.fetchone())
-            result = cur.fetchall()
-            result.insert(0, tuple(col_names))
-            cur.close()
-    except Exception as exp:
-        error = str(exp)
-    if REFERENCE_RESULT == result:
-        equal = True
+        result = ""
+        error = ""
+        try:
+            with fdb.connect(
+                database=settings.RDB_CONF_STUDENT['database'], 
+                user=settings.RDB_CONF_STUDENT['user'], 
+                password=settings.RDB_CONF_STUDENT['password'], 
+                charset=settings.RDB_CONF_STUDENT['charset']) as con:
+                cur = con.cursor()
+                cur.execute(sql_statement)
+                col_names = cur.to_dict(cur.fetchone())
+                result = cur.fetchall()
+                result.insert(0, tuple(col_names))
+                cur.close()
+        except Exception as exp:
+            error = str(exp)
+        if REFERENCE_RESULT == result:
+            equal = True
 
-        id_user = Student.objects.get(username=request.user)
-        id_task = Task.objects.get(task_id=TASK_ID)
+            id_user = Student.objects.get(username=request.user)
+            id_task = Task.objects.get(task_id=TASK_ID)
 
-        p = Points.objects.values_list('point_id').filter(task=id_task,auth_user=id_user)
-        if not p:
-            pt = Points(point=TASK_POINTS,task=id_task,auth_user=id_user,answer=sql_statement)
-            pt.save()
+            p = Points.objects.values_list('point_id').filter(task=id_task,auth_user=id_user)
+            if not p:
+                pt = Points(point=TASK_POINTS,task=id_task,auth_user=id_user,answer=sql_statement)
+                pt.save()
 
+        else:
+            equal = False
+
+        delta_file = home_directory + "examples/empbuild/employee.fdb.delta"
+        if os.path.exists(delta_file): 
+            os.remove(delta_file)
+        subprocess.run([f"{home_directory}nbackup.exe", "-F", f"{home_directory}examples/empbuild/employee.fdb"])
+
+
+        last_available = int(Student.objects.values_list("lecture_pos",  flat=True).filter(username=request.user)[0])
+        lecture = int(Task.objects.values_list("lecture", flat=True).filter(task_id=TASK_ID)[0])
+        lecture_pos = int(Lecture.objects.values_list("position", flat=True).filter(lecture_id=lecture)[0])
+        if last_available == lecture_pos:
+            max_points = Task.objects.filter(lecture_id=lecture).aggregate(Sum('task_max_points'))['task_max_points__sum']
+            id_user = int(Student.objects.values_list('id', flat=True).filter(username=request.user)[0])
+            all_points = Points.objects.values_list("point","task").filter(auth_user=id_user)
+            list_tasks = list(Task.objects.values_list("task_id", flat=True).filter(lecture_id=lecture))
+            sum_student = 0
+            for point, task in list(all_points):       
+                if task in list_tasks:
+                    sum_student += point
+            
+            if sum_student/max_points >= 0.8:
+                st = Student.objects.get(id=id_user)
+                st.lecture_pos += 1
+                st.save()
+    
+    
+        response = {
+            "result" : result,
+            "equal": equal,
+            "error": error
+        }
     else:
-        equal = False
-
-    delta_file = home_directory + "examples/empbuild/employee.fdb.delta"
-    if os.path.exists(delta_file): 
-        os.remove(delta_file)
-    subprocess.run([f"{home_directory}nbackup.exe", "-F", f"{home_directory}examples/empbuild/employee.fdb"])
-
-
-    last_available = int(Student.objects.values_list("lecture_pos",  flat=True).filter(username=request.user)[0])
-    lecture = int(Task.objects.values_list("lecture", flat=True).filter(task_id=TASK_ID)[0])
-    lecture_pos = int(Lecture.objects.values_list("position", flat=True).filter(lecture_id=lecture)[0])
-    if last_available == lecture_pos:
-        max_points = Task.objects.filter(lecture_id=lecture).aggregate(Sum('task_max_points'))['task_max_points__sum']
-        id_user = int(Student.objects.values_list('id', flat=True).filter(username=request.user)[0])
-        all_points = Points.objects.values_list("point","task").filter(auth_user=id_user)
-        list_tasks = list(Task.objects.values_list("task_id", flat=True).filter(lecture_id=lecture))
-        sum_student = 0
-        for point, task in list(all_points):       
-            if task in list_tasks:
-                sum_student += point
-        
-        if sum_student/max_points >= 0.8:
-            st = Student.objects.get(id=id_user)
-            st.lecture_pos += 1
-            st.save()
-    
-    
-    response = {
-        "result" : result,
-        "equal": equal,
-        "error": error
-    }
+        response = {
+        "result" : "",
+        "equal": False,
+        "error": "Key sql statement is not used"
+        }
 
     return JsonResponse(data=response)
 
@@ -274,42 +283,61 @@ def get_solutions(request):
 
 def add_comment(request):
     text_comment = request.POST.get('text_comment')
-    point_id = request.POST.get('point_id')
+    if not(text_comment.isspace()) and text_comment != "":
+        point_id = request.POST.get('point_id')
 
-    point = Points.objects.get(point_id=point_id)
-    point.comment = text_comment
-    point.is_viewed = True
-    point.save()
+        point = Points.objects.get(point_id=point_id)
+        point.comment = text_comment
+        point.is_viewed = True
+        point.save()
 
-    response = {
-        "added": True
-    }
+        response = {
+            "added": True
+        }
+    else:
+        response = {
+            "added": False
+        }
     return JsonResponse(data=response)
 
 def add_answer(request):
     text_answer = request.POST.get('text_answer')
-    question_id = request.POST.get('question_id')
+    if not(text_answer.isspace()) and text_answer != "":
+        question_id = request.POST.get('question_id')
 
-    question = Question.objects.get(question_id=question_id)
-    question.comment = text_answer
-    question.is_viewed = True
-    question.save()
+        question = Question.objects.get(question_id=question_id)
+        question.comment = text_answer
+        question.is_viewed = True
+        question.save()
 
-    response = {
-        "added": True
-    }
+        response = {
+            "added": True
+        }
+    else:
+        response = {
+            "added": False
+        }
     return JsonResponse(data=response)
 
 def add_question(request):
     text_question = request.POST.get('text_question')
-    id_user = Student.objects.get(username=request.user)
-    id_task = Task.objects.get(task_id=TASK_ID)
-    question = Question(question=text_question,task=id_task,auth_user=id_user)
-    question.save()
+    if not(text_question.isspace()) and text_question != "":
+        print(123)
+        id_user = Student.objects.get(username=request.user)
+        id_task = Task.objects.get(task_id=TASK_ID)
 
-    response = {
-        "added": True
-    }
+        q = Question.objects.values_list('question_id').filter(task=id_task,auth_user=id_user,is_viewed_student=False)
+        if not q:
+            question = Question(question=text_question,task=id_task,auth_user=id_user)
+            question.save()
+
+        response = {
+            "added": True
+        }
+    else:
+        response = {
+            "added": False
+        }
     return JsonResponse(data=response)
 
 def view_answer(request):
@@ -348,7 +376,6 @@ def search(request):
         solution.append(res.task.task_name)
         solution.append(res.task.task_text)
         solutions.append(solution)
-        print(solution)
 
 
     response = {
