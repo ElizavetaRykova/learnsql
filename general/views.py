@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 # from django.contrib.auth.forms import AuthenticationForm
-from .forms import MyAuthenticationForm, RegisterForm
+from .forms import MyAuthenticationForm, RegisterForm, ChangePasswordForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.http import JsonResponse
@@ -11,6 +11,10 @@ from django.db.models import Sum
 import subprocess
 import time
 import os
+
+
+def get_home(request):
+    return render(request, 'home.html')
 
 # Форма входа
 def signin(request):
@@ -383,3 +387,11 @@ def search(request):
     }
 
     return JsonResponse(data=response)
+
+# Отрисовка HTML-шаблона смены пароля
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+    else:
+        form = ChangePasswordForm(request)
+    return render(request, 'change_password.html', {'form': form})

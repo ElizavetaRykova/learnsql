@@ -1,5 +1,5 @@
 .task{
-    margin: 3vh 0;
+    margin: 3vh 0 0 0;
     &__wrapper{
         display: flex;
         flex-direction: row;
@@ -85,7 +85,8 @@
     border: 1px solid rgba(16, 25, 35, 0.5);
     border-radius: 15px;
     width: 48%;
-    height: 492px;
+    // height: 492px;
+    height: 450px;
     overflow: auto;
     &__header{
         border-bottom: 1px solid rgba(16, 25, 35, 0.5);
@@ -119,7 +120,8 @@
     border: 1px solid rgba(16, 25, 35, 0.5);
     border-radius: 15px;
     width: 48%;
-    height: 492px;
+    // height: 492px;
+    height: 450px;
     overflow: auto;
     &__header{
         border-bottom: 1px solid rgba(16, 25, 35, 0.5);
@@ -200,7 +202,7 @@
 
 .task__question-comment{
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
 }
 
 .task__question-comment-text{
@@ -220,4 +222,94 @@
 
 .question__support-button{
     align-self: flex-end;
+}
+
+.ss-main.data__header{
+    padding: 5px 15px;
+}
+
+.ss-single{
+    color: rgba(16, 25, 35, 0.80);
+    font-family: Montserrat;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+}
+
+.notification {
+    display: none;
+    z-index: 10;
+    width: 350px;
+    position: absolute;
+    top: 40%;
+    left: 55%;
+
+    &__wrapper{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #780000;
+    background-color: #FFF;
+    }
+
+    &__header{
+        color: #101923;
+        font-family: Montserrat;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    &__body{
+        padding: 20px 0;
+        color: #101923;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    &__buttons{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    &__back-button{
+        padding: 4px 15px;
+        align-items: center;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        color: #FFFFFF;
+        background: #B60000;
+        border: 1px solid #B60000; 
+        border-radius: 15px;
+        height: max-content;
+    }
+    &__next-button{
+        padding: 4px 15px;
+        align-items: center;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        color: #FFFFFF;
+        background: #B60000;
+        border: 1px solid #B60000; 
+        border-radius: 15px;
+        height: max-content;
+    }
+}
+
+.notification__back-button:hover{
+    background: #780000;
+    border: 1px solid #780000;
+}
+
+.notification__next-button:hover{
+    background: #780000;
+    border: 1px solid #780000;
 }

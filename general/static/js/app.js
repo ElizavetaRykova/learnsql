@@ -53,3 +53,52 @@ for (i = 0; i < acc.length; i++) {
         }
     });
 }
+
+//проверка на заполненность поля перед отправкой комментария
+const addComment = document.querySelector('.question__support-button');
+addComment.addEventListener('click', function (e) {
+  e.preventDefault();
+  removeValidation();
+  checkFieldsPresence();
+})
+
+const generateError = function (text) {
+  const error = document.createElement('div');
+  error.classList.add('error');
+  error.style.color = '#B60000';
+  error.innerHTML = text;
+  return error;
+}
+
+const successMessage = function (text) {
+    const success = document.createElement('div');
+    success.classList.add('success');
+    success.style.color = '#B60000';
+    success.style.marginTop = '15px';
+    success.innerHTML = text;
+    return success;
+  }
+
+const removeValidation = function () {
+  const errors = document.querySelectorAll('.error');
+  for (let i = 0; i < errors.length; i++) {
+    errors[i].remove()
+  }
+  const success = document.querySelectorAll('.success');
+  for (let i = 0; i < success.length; i++) {
+    success[i].remove()
+  } 
+}
+
+const checkFieldsPresence = function () {
+  const comment = document.querySelector('.task__question-comment-text');
+  if (!comment.value.length) {
+    const error = generateError('Введите комментарий');
+    comment.parentElement.insertBefore(error, comment);
+  }
+  else {
+    const message = document.querySelector('.task__question');
+    const success = successMessage('Комментарий добавлен');
+    message.parentElement.insertBefore(success, message);
+  }
+}

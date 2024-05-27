@@ -37,6 +37,16 @@
                         </div>
                     </div>
                     <div class="task__workspace">
+                      <div class="notification">
+                        <div class="notification__wrapper">
+                          <div class="notification__header">Решение верно!</div>
+                          <div class="notification__body">Вы можете вернуться к списку тем или перейти к следующему заданию</div>
+                          <div class="notification__buttons">
+                            <a href="{% url 'topic_list' %}" class="notification__back-button">К списку тем</a>
+                            <a href="{% url 'topic_list' %}" class="notification__next-button">Cледующее задание</a>
+                          </div>
+                        </div>
+                      </div>
                         <div class="task__workspace-top-wrapper">
                             <div class="editor">
                                 <div class="editor__header">
@@ -152,12 +162,13 @@ $(".button-run-query").bind('click', function(){
             });
             table_student_res.append(tr);
           });
+          $(".notification").fadeIn().html(html);
         }
         console.log(data_response['equal'])
         var error = data_response['error'];
         if (error) {
           console.log(error)
-          $(".editor__error-output").text(error).fadeIn();;
+          $(".editor__error-output").text(error).fadeIn();
         }
         else{
           $(".editor__error-output").hide().html(html);
@@ -207,7 +218,11 @@ $(".button-run-query").bind('click', function(){
         data: {text_question:$(".task__question-comment-text").val()},
         dataType: 'json',
         success: function(data_response){
-          $('.task__question').hide().html(html);
+          var added = data_response['added'];
+          console.log(added)
+          if (added) {
+            $('.task__question').hide().html(html);
+          }
         }
       });
   });

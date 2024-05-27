@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm, PasswordChangeForm
 from django import forms
 from django.contrib.auth.models import User
 from general.models import Student
@@ -15,6 +15,27 @@ class MyAuthenticationForm(AuthenticationForm):
                                           'class': 'input-password'}),
     )
 
+
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label= None,
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True, 'class': 'input-password'}),
+    )
+    new_password1 = forms.CharField(
+        label= None,
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
+                                          'placeholder': 'Пароль',
+                                          'class': 'input-password'}),
+    )
+    new_password2 = forms.CharField(
+        label= None,
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
+                                          'placeholder': 'Повторите пароль',
+                                          'class': 'input-password'}),
+    )
 
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'autofocus': True,

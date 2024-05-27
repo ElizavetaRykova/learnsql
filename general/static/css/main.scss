@@ -86,13 +86,13 @@ thead th:nth-child(4) {
 }
 
 th {
-  padding: 10px;
+  padding: 15px;
   border: 1px solid rgba(16, 25, 35, 0.5);
 }
 
 td {
   border: 1px solid rgba(16, 25, 35, 0.5);
-  padding: 10px;
+  padding: 15px;
 }
 
 // Ограничивающий контейнер ======================================================================================================================================================================================================================
@@ -178,10 +178,12 @@ td {
 //pages
 @import "pages/login";
 @import "pages/signup";
+@import "pages/change_password";
 @import "pages/topic_list";
 @import "pages/book";
 @import "pages/task";
 @import "pages/solutions";
+@import "pages/home";
 //themes
 
 //vendors
