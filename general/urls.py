@@ -19,6 +19,7 @@ urlpatterns = [
     path('view_comment/', views.view_comment, name='view_comment'),
     path('search/', views.search, name='search'),
     path('change_password/', views.change_password, name='change_password'),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
     #path('accounts/', include('django.contrib.auth.urls'))
 ]
 

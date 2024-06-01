@@ -19,7 +19,7 @@
                     <button type="submit" class="enter-button">Войти</button>
                 </form> 
                 <div class="signin__forgot">
-                    <a href="#" class="signin__forgot-password">Забыл пароль</a>
+                    <a href="{% url 'forgot_password' %}" class="signin__forgot-password">Забыл пароль</a>
                     <hr />
                     <a href="{% url 'signup' %}" class="signin__signup">Зарегистрироваться</a>
                 </div>

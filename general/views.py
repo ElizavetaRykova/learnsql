@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 # from django.contrib.auth.forms import AuthenticationForm
-from .forms import MyAuthenticationForm, RegisterForm, ChangePasswordForm
+from .forms import MyAuthenticationForm, RegisterForm, ChangePasswordForm, ForgotPasswordForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.http import JsonResponse
@@ -49,6 +49,22 @@ def get_signup(request):
     else:
         form = RegisterForm()
     return render(request, 'signup.html', {'form': form})
+
+# Отрисовка HTML-шаблона смены пароля
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+    else:
+        form = ChangePasswordForm(request)
+    return render(request, 'change_password.html', {'form': form})
+
+# Отрисовка HTML-шаблона восстановления пароля
+def forgot_password(request):
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+    else:
+        form = ForgotPasswordForm()
+    return render(request, 'forgot_password.html', {'form': form})
 
 # Отрисовка HTML-шаблона страницы со списком тем
 # <QuerySet [(1, 'Лекция 1'), (2, 'Лекция 2')]>
@@ -388,10 +404,3 @@ def search(request):
 
     return JsonResponse(data=response)
 
-# Отрисовка HTML-шаблона смены пароля
-def change_password(request):
-    if request.method == 'POST':
-        form = ChangePasswordForm(request.POST)
-    else:
-        form = ChangePasswordForm(request)
-    return render(request, 'change_password.html', {'form': form})
