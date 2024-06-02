@@ -1,5 +1,5 @@
 const profile = document.querySelectorAll('.profile__user-name');
-const profile_item = document.querySelectorAll('.profile__menu');
+const profile_item = document.querySelectorAll('.profile__menu-list');
 
 for (let i = 0; i < profile.length; i++) {
     profile[i].addEventListener('click', (e) => {

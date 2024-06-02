@@ -46,7 +46,7 @@
   }
 
   &__menu {
-    display: none;
+    // display: none;
     top: 30px;
     padding: 0 15px 15px 15px;
     position: absolute;
@@ -60,6 +60,10 @@
     color: #101923;
     background-color: white;
   }
+
+  &__menu-list{
+    display: none;
+  } 
 
   &__menu-item{
     padding-top: 15px;

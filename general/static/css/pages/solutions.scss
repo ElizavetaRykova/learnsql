@@ -151,6 +151,10 @@
     padding-right: 2px;
 }
 
+.button-expand--opened {
+    transform: rotate(180deg);
+}
+
 .button-expand:hover{
     background: #780000;
 }

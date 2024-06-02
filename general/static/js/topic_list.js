@@ -3,6 +3,7 @@ const accordion_item = document.querySelectorAll('.accordion');
 
 for (let i = 0; i < expand.length; i++) {
     expand[i].addEventListener('click', (e) => {
+            expand[i].classList.toggle('button-expand--opened');
             slideToggle(accordion_item[i]);
     });
 }
