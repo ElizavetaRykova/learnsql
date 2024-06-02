@@ -13,7 +13,11 @@
         <div class="home">
             <div class="home__wrapper">
                 <div class="home__text">Текст, мотивирующий изучать SQL. Желательно в несколько строк!</div>
+                {% if request.user.is_authenticated %}
                 <a href="{% url 'topic_list' %}" class="home__button">Начать учиться</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="home__button">Начать учиться</a>
+                {% endif %}
             </div>
         </div>    
     </main>

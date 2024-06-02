@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 # from django.contrib.auth.forms import AuthenticationForm
 from .forms import MyAuthenticationForm, RegisterForm, ChangePasswordForm, ForgotPasswordForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -53,9 +53,14 @@ def get_signup(request):
 # Отрисовка HTML-шаблона смены пароля
 def change_password(request):
     if request.method == 'POST':
-        form = ChangePasswordForm(request.POST)
+        form = ChangePasswordForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            print(request, 'Пароль сменен успешно')
+            return redirect('/')
     else:
-        form = ChangePasswordForm(request)
+        form = ChangePasswordForm(request.user)
     return render(request, 'change_password.html', {'form': form})
 
 # Отрисовка HTML-шаблона восстановления пароля

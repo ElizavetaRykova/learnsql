@@ -5,6 +5,7 @@
       <div class="header__logo">
         <a href="{% url 'home' %}" class="logo-text">LearnSQL</a>
       </div>
+      {% if request.user.is_authenticated %}
       <nav class="header__menu menu">
         <ul class="menu__list">
           <li class="menu__item">
@@ -18,7 +19,6 @@
           </li>
         </ul>
       </nav>
-      {% if request.user.is_authenticated %}
         <div class="profile">
           <div class="profile__user-name">{{ request.user.first_name }} {{ request.user.last_name }}
           </div>
@@ -28,12 +28,25 @@
                       <a href="{% url 'change_password' %}" class="profile__menu-link">Изменить пароль</a>
                   </li>
                   <li class="profile__menu-item">
-                      <a href="" class="profile__menu-link">Выйти</a>
+                      <a href="{% url 'logout' %}" class="profile__menu-link">Выйти</a>
                   </li>
               </ul>
           </div>
         </div>
       {% else %}
+      <nav class="header__menu menu">
+        <ul class="menu__list">
+          <li class="menu__item">
+            <a class="menu__link" href="{% url 'login' %}">Учебник</a>
+          </li>
+          <li class="menu__item">
+            <a class="menu__link" href="{% url 'login' %}">Практика</a>
+          </li>
+          <li class="menu__item">
+            <a class="menu__link" href="{% url 'login' %}">Решения</a>
+          </li>
+        </ul>
+      </nav>
         <a href="{% url 'login' %}" class="header__user-name">Войти</a>
       {% endif %}
     </div>

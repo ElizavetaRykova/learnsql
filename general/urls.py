@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.get_home, name='home'),
@@ -20,6 +20,9 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('change_password/', views.change_password, name='change_password'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+
+    # url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout')
     #path('accounts/', include('django.contrib.auth.urls'))
 ]
 
