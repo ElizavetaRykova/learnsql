@@ -5,7 +5,9 @@ from general.models import Student
 from django.utils.translation import gettext, gettext_lazy as _
 
 class MyAuthenticationForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 
+    username = UsernameField(
+        label=_(""),
+        widget=forms.TextInput(attrs={'autofocus': True, 
                                                            'placeholder': 'Логин',
                                                            'class': 'input-login'}))
     password = forms.CharField(
@@ -21,7 +23,7 @@ class ChangePasswordForm(PasswordChangeForm):
     old_password = forms.CharField(
         label=_(""),
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True, 'class': 'input-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'placeholder': 'Старый пароль', 'autofocus': True, 'class': 'input-password'}),
     )
     new_password1 = forms.CharField(
         label=_(""),
@@ -50,21 +52,29 @@ class ForgotPasswordForm(PasswordResetForm):
 
 
 class RegisterForm(UserCreationForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'autofocus': True,
-                                                               'placeholder': 'Имя',
-                                                               'class': 'input-fio'}))
+    first_name = forms.CharField(
+        label=_(""),
+        widget=forms.TextInput(attrs={'autofocus': True,
+                                      'placeholder': 'Имя',
+                                      'class': 'input-fio'}))
     
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'autofocus': True,
-                                                               'placeholder': 'Фамилия',
-                                                               'class': 'input-fio'}))
+    last_name = forms.CharField(
+        label=_(""),
+        widget=forms.TextInput(attrs={'autofocus': True,
+                                      'placeholder': 'Фамилия',
+                                      'class': 'input-fio'}))
     
-    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 
-                                                           'placeholder': 'Логин',
-                                                           'class': 'input-login'}))
+    username = UsernameField(
+        label=_(""),
+        widget=forms.TextInput(attrs={'autofocus': True, 
+                                      'placeholder': 'Логин',
+                                      'class': 'input-login'}))
     
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'autofocus': True, 
-                                                           'placeholder': 'Email',
-                                                           'class': 'input-email'}))
+    email = forms.EmailField(
+        label=_(""),
+        widget=forms.EmailInput(attrs={'autofocus': True, 
+                                'placeholder': 'Email',
+                                'class': 'input-email'}))
 
     password1 = forms.CharField(
         label=_(""),
