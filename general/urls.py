@@ -18,6 +18,7 @@ urlpatterns = [
     path('view_answer/', views.view_answer, name='view_answer'),
     path('view_comment/', views.view_comment, name='view_comment'),
     path('search/', views.search, name='search'),
+    path('search_topic/', views.search_topic, name='search_topic'),
     path('change_password/', views.change_password, name='change_password'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),

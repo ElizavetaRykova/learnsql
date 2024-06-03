@@ -83,14 +83,78 @@ def get_topic_list(request):
     for lecture_obj in lecture_objs_available:
         lecture_id = lecture_obj[0]
         task_objs = Task.objects.values_list('task_id', 'task_name').filter(lecture=lecture_id)
-        topic_list.append((lecture_obj[0], lecture_obj[1], list(task_objs)))
 
+        max_points = Task.objects.filter(lecture_id=lecture_id).aggregate(Sum('task_max_points'))['task_max_points__sum']
+        student_points = Points.objects.filter(auth_user_id__username=request.user, task_id__lecture_id=lecture_id).aggregate(Sum('point'))['point__sum']
+
+
+        if max_points and student_points:
+            percent = (student_points/max_points) * 100
+        else:
+            percent = 0
+
+        tasks = []
+        for task_obj in task_objs:
+            p = Points.objects.values_list('point').filter(task=task_obj[0], auth_user_id__username=request.user)
+            if p:
+                p_point = int(p[0][0])
+            else:
+                p_point = 0
+            tasks.append((task_obj[0], task_obj[1], p_point))
+
+        topic_list.append((lecture_obj[0], lecture_obj[1], percent, tasks))
+    
     lecture_objs_lock = Lecture.objects.values_list('lecture_name').filter(position__gt=max_available).order_by('position')
     topic_list_lock = []
     for lecture_obj_lock in list(lecture_objs_lock):
         topic_list_lock.append(lecture_obj_lock[0])
         
     return render(request, 'topic_list.html', {'topic_list': topic_list, 'topic_list_lock': list(topic_list_lock)})
+
+def search_topic(request):
+    search_val = request.POST.get('search_val')
+    topic_list = []
+    print(search_val)
+    max_available = Student.objects.get(username=request.user).lecture_pos
+    lecture_objs_available = Lecture.objects.values_list('lecture_id', 'lecture_name').filter(position__lte=max_available, lecture_name__icontains=search_val).order_by('position')
+
+    print(lecture_objs_available)
+    
+    for lecture_obj in lecture_objs_available:
+        lecture_id = lecture_obj[0]
+        task_objs = Task.objects.values_list('task_id', 'task_name').filter(lecture=lecture_id)
+
+        max_points = Task.objects.filter(lecture_id=lecture_id).aggregate(Sum('task_max_points'))['task_max_points__sum']
+        student_points = Points.objects.filter(auth_user_id__username=request.user, task_id__lecture_id=lecture_id).aggregate(Sum('point'))['point__sum']
+
+
+        if max_points and student_points:
+            percent = (student_points/max_points) * 100
+        else:
+            percent = 0
+
+        tasks = []
+        for task_obj in task_objs:
+            p = Points.objects.values_list('point').filter(task=task_obj[0], auth_user_id__username=request.user)
+            if p:
+                p_point = int(p[0][0])
+            else:
+                p_point = 0
+            tasks.append((task_obj[0], task_obj[1], p_point))
+
+        topic_list.append((lecture_obj[0], lecture_obj[1], percent, tasks))
+    
+    lecture_objs_lock = Lecture.objects.values_list('lecture_name').filter(position__gt=max_available).order_by('position')
+    topic_list_lock = []
+    for lecture_obj_lock in list(lecture_objs_lock):
+        topic_list_lock.append(lecture_obj_lock[0])
+
+    response = {
+        "topic_list": topic_list
+    }
+
+    return JsonResponse(data=response)
+
 
 # Отрисовка HTML-шаблона страницы учебника
 def get_book(request):
@@ -347,22 +411,27 @@ def add_answer(request):
 def add_question(request):
     text_question = request.POST.get('text_question')
     if not(text_question.isspace()) and text_question != "":
-        print(123)
         id_user = Student.objects.get(username=request.user)
         id_task = Task.objects.get(task_id=TASK_ID)
 
         q = Question.objects.values_list('question_id').filter(task=id_task,auth_user=id_user,is_viewed_student=False)
         if not q:
+            print(123)
             question = Question(question=text_question,task=id_task,auth_user=id_user)
             question.save()
 
-        response = {
-            "added": True
-        }
+            response = {
+                "added": True
+            }
+        else:
+            response = {
+                "added": False
+            }
     else:
         response = {
             "added": False
         }
+    print(response)
     return JsonResponse(data=response)
 
 def view_answer(request):
@@ -389,7 +458,6 @@ def view_comment(request):
 
 def search(request):
     search_val = request.POST.get('search_val')
-
     solutions = []
 
     result = Points.objects.filter(task__task_name__icontains=search_val, is_viewed=False)
