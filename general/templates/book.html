@@ -11,8 +11,10 @@
     {% include 'header.html' %}
     <main>
         <div class="book">
+            {% csrf_token %}
             <!-- <div class="book__content">дока, сгенерированная sphinx</div> -->
-            <iframe class="book__content" src="{% static 'guide/build/html/index.html' %}" width="100%" height="100%"></iframe>
+            <iframe class="book__content" src="{% static 'html/index.html' %}" width="100%" height="100%"></iframe>
+            <!-- <iframe class="book__content" src="{{ MEDIA_URL}}guide/build/html/index.html" width="100%" height="100%"></iframe> -->
             <!-- <a href="" class="book__link-to-lecture-task link-to-lecture-task">Задания</a> -->
         </div>    
     </main>

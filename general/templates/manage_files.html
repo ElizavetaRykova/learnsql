@@ -1,0 +1,41 @@
+{% extends 'head.html' %}
+
+{% load static %}
+
+{% block title%}
+    Files
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'header.html' %}
+    <main>
+        <h2>Upload a new file</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ upload_form.as_p }}
+            <button type="submit" name="action" value="upload">Upload</button>
+        </form>
+    
+        <h2>Select a file to edit or delete</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ selection_form.as_p }}
+            <button type="submit" name="action" value="edit">Edit</button>
+            <button type="submit" name="action" value="delete">Delete</button>
+        </form>
+    
+        {% if edit_form %}
+        <h2>Edit file: {{ selected_file }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="filename" value="{{ selected_file }}">
+            {{ edit_form.as_p }}
+            <button type="submit" name="action" value="save">Save</button>
+        </form>
+        {% endif %} 
+    </main>
+    {% include 'footer.html' %}
+</div>
+
+{% endblock %}

@@ -96,3 +96,19 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = Student
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', )
+
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField(label='Select a file', widget=forms.ClearableFileInput(attrs={'accept': '.rst,.png'}))
+
+class EditFileForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'rows': 20}), label='Edit file content')
+
+class FileSelectionForm(forms.Form):
+    filename = forms.ChoiceField(choices=[], label='Select a file')
+    
+    def __init__(self, *args, **kwargs):
+        file_choices = kwargs.pop('file_choices', [])
+        super().__init__(*args, **kwargs)
+        self.fields['filename'].choices = file_choices 

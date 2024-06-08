@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 # from django.contrib.auth.forms import AuthenticationForm
-from .forms import MyAuthenticationForm, RegisterForm, ChangePasswordForm, ForgotPasswordForm
+from .forms import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.http import JsonResponse
@@ -477,3 +477,88 @@ def search(request):
 
     return JsonResponse(data=response)
 
+def manage_files(request):
+    # Путь к директории хранения файлов
+    media_root = settings.MEDIA_ROOT / 'guide' /'source'
+    # Получаем список всех файлов в директории
+    files = os.listdir(media_root)
+    file_choices = [(file, file) for file in files]
+    
+    # Инициализация форм
+    upload_form = UploadFileForm()
+    selection_form = FileSelectionForm(file_choices=file_choices)
+    edit_form = None
+    selected_file = None
+
+    index_rst_path = os.path.join(media_root, 'index.rst')
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'upload':
+            # Обработка загрузки файла
+            upload_form = UploadFileForm(request.POST, request.FILES)
+            if upload_form.is_valid():
+                uploaded_file = request.FILES['file']
+                handle_uploaded_file(uploaded_file)
+                # Если загружен .rst файл, открыть index.rst на редактирование
+                if uploaded_file.name.endswith('.rst'):
+                    with open(index_rst_path, 'r', encoding='utf-8') as file:
+                        content = file.read()
+                    edit_form = EditFileForm(initial={'content': content})
+                    selected_file = 'index.rst'
+
+        elif action == 'edit' and 'filename' in request.POST:
+            # Отображение формы для редактирования файла
+            selected_file = request.POST['filename']
+            file_path = os.path.join(media_root, selected_file)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+            edit_form = EditFileForm(initial={'content': content})
+
+        elif action == 'save' and 'filename' in request.POST:
+            # Сохранение изменений в файле
+            selected_file = request.POST['filename']
+            file_path = os.path.join(media_root, selected_file)
+            edit_form = EditFileForm(request.POST)
+            if edit_form.is_valid():
+                with open(file_path, 'w', encoding='utf-8') as file:
+                    file.write(edit_form.cleaned_data['content'])
+                if selected_file.name.endswith('index.rst'):
+                    #build doc
+                    pass
+                return redirect('manage_files')
+
+        elif action == 'delete' and 'filename' in request.POST:
+            # Удаление файла
+            selected_file = request.POST['filename']
+            file_path = os.path.join(media_root, selected_file)
+            if os.path.exists(file_path):
+                if file_path.endswith('.rst'):
+                    delete_rst = True
+                else:
+                    delete_rst = False
+                os.remove(file_path)
+                if delete_rst:
+                    # Если удален .rst файл, открыть index.rst на редактирование
+                    with open(index_rst_path, 'r', encoding='utf-8') as file:
+                        content = file.read()
+                    edit_form = EditFileForm(initial={'content': content})
+                    selected_file = 'index.rst'
+                    # return redirect('manage_files')
+
+    return render(request, 'manage_files.html', {
+        'upload_form': upload_form,
+        'selection_form': selection_form,
+        'edit_form': edit_form,
+        'selected_file': selected_file,
+    })
+
+def handle_uploaded_file(f):
+    if f.name.endswith('.rst'):
+        uploading_path = settings.MEDIA_ROOT / 'guide' / 'source'
+    if f.name.endswith('.png'):
+        uploading_path = settings.MEDIA_ROOT / 'guide' / 'source' / 'images'
+    with open(os.path.join(uploading_path, f.name), 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
