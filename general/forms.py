@@ -100,13 +100,13 @@ class RegisterForm(UserCreationForm):
 
 
 class UploadFileForm(forms.Form):
-    file = forms.FileField(label='Select a file', widget=forms.ClearableFileInput(attrs={'accept': '.rst,.png'}))
+    file = forms.FileField(label='Выберите файл', widget=forms.ClearableFileInput(attrs={'accept': '.rst,.png', 'class': 'input-file'}))
 
 class EditFileForm(forms.Form):
-    content = forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'rows': 20}), label='Edit file content')
+    content = forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'rows': 20}), label='')
 
 class FileSelectionForm(forms.Form):
-    filename = forms.ChoiceField(choices=[], label='Select a file')
+    filename = forms.ChoiceField(choices=[], label='Выберите файл')
     
     def __init__(self, *args, **kwargs):
         file_choices = kwargs.pop('file_choices', [])

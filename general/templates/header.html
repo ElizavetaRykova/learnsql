@@ -11,6 +11,11 @@
           <li class="menu__item">
             <a class="menu__link" href="{% url 'book' %}">Учебник</a>
           </li>
+          {% if request.user.is_staff %}
+            <li class="menu__item">
+              <a class="menu__link" href="{% url 'manage_files' %}">Редактировать учебник</a>
+            </li>
+          {% endif %}
           <li class="menu__item">
             <a class="menu__link" href="{% url 'topic_list' %}">Практика</a>
           </li>

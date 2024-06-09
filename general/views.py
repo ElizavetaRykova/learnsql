@@ -523,10 +523,20 @@ def manage_files(request):
             edit_form = EditFileForm(request.POST)
             if edit_form.is_valid():
                 with open(file_path, 'w', encoding='utf-8') as file:
-                    file.write(edit_form.cleaned_data['content'])
-                if selected_file.name.endswith('index.rst'):
-                    #build doc
-                    pass
+                    file.write(edit_form.cleaned_data['content'].replace('\r\n', '\n'))
+                if selected_file.endswith('index.rst'):
+                    #build doc                    
+                    import shutil
+                    guide_path = settings.MEDIA_ROOT / 'guide'
+                    build_path = guide_path / 'build'
+                    if os.path.isdir(build_path):
+                        shutil.rmtree(build_path)       
+                    subprocess.run(['powershell.exe', f'{guide_path}/make html'])
+
+                    static_build_path = settings.STATIC_ROOT / 'build' / 'html'
+                    if os.path.isdir(static_build_path):
+                        shutil.rmtree(static_build_path)  
+                    shutil.copytree(build_path / 'html', static_build_path)
                 return redirect('manage_files')
 
         elif action == 'delete' and 'filename' in request.POST:

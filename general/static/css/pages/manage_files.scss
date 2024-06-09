@@ -1,0 +1,95 @@
+.files{
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        width: 80%;
+    }
+
+    &__select-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__upload{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &__header{
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 30px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    &__edit{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &__content{
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.input-file{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.header-input-file{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.edit-button{
+    margin-top: 15px;
+    padding: 4px 15px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    background: #B60000;
+    border: 1px solid #B60000; 
+    border-radius: 15px;
+    height: max-content;
+    float: left;
+    margin-right: 15px;
+}
+
+.edit-button:hover{
+    background: #780000;
+    border: 1px solid #780000;
+}
+
+.save-button{
+    margin-top: 15px;
+    padding: 4px 15px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    background: #B60000;
+    border: 1px solid #B60000; 
+    border-radius: 15px;
+    height: max-content;
+    float: left;
+}
+
+.save-button:hover{
+    background: #780000;
+    border: 1px solid #780000;
+}

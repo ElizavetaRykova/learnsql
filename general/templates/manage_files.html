@@ -10,30 +10,41 @@
 <div class="wrapper">
     {% include 'header.html' %}
     <main>
-        <h2>Upload a new file</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ upload_form.as_p }}
-            <button type="submit" name="action" value="upload">Upload</button>
-        </form>
-    
-        <h2>Select a file to edit or delete</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ selection_form.as_p }}
-            <button type="submit" name="action" value="edit">Edit</button>
-            <button type="submit" name="action" value="delete">Delete</button>
-        </form>
-    
-        {% if edit_form %}
-        <h2>Edit file: {{ selected_file }}</h2>
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="filename" value="{{ selected_file }}">
-            {{ edit_form.as_p }}
-            <button type="submit" name="action" value="save">Save</button>
-        </form>
-        {% endif %} 
+        <div class="files__container--medium">
+            <div class="files__wrapper">
+                <div class="files__select-wrapper">
+                    <div class="files__upload">
+                        <div class="files__header">Загрузка файла</div>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ upload_form.as_p }}
+                            <button class="edit-button" type="submit" name="action" value="upload">Загрузить</button>
+                        </form>
+                    </div> 
+            
+                    <div class="files__edit">
+                        <div class="files__header">Редактирование или удаление</div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ selection_form.as_p }}
+                            <button class="edit-button" type="submit" name="action" value="edit">Редактировать</button>
+                            <button class="edit-button" type="submit" name="action" value="delete">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+        
+                {% if edit_form %}
+                <div class="files__content">Редактируемый файл: {{ selected_file }}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="filename" value="{{ selected_file }}">
+                        {{ edit_form.as_p }}
+                        <button class="save-button" type="submit" name="action" value="save">Сохранить</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div> 
     </main>
     {% include 'footer.html' %}
 </div>
